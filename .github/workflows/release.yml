@@ -1,0 +1,177 @@
+name: release
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-deb:
+    name: Build ${{ matrix.arch }} packages
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+            multiarch: aarch64-linux-gnu
+          - arch: amd64
+            runner: ubuntu-24.04
+            multiarch: x86_64-linux-gnu
+    # Native runners produce native builds, no cross compilation needed
+    runs-on: ${{ matrix.runner }}
+    # Build inside Debian bookworm (current oldstable, fully served): Qt 5.15,
+    # DTK 5.5, glibc 2.36. For very old UOS 20 devices prefer an on-device build.
+    container: debian:bookworm-slim
+    env:
+      # The bookworm-slim container's pkg-config does not search the multiarch
+      # pkgconfig directory on its own
+      PKG_CONFIG_PATH: /usr/lib/${{ matrix.multiarch }}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          set -e
+          for attempt in 1 2 3 4; do
+            if apt-get update; then
+              break
+            fi
+            echo "apt-get update failed (attempt $attempt), retrying in 20s" >&2
+            if [ "$attempt" = "4" ]; then
+              exit 1
+            fi
+            sleep 20
+          done
+          apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+            build-essential cmake pkg-config git curl ca-certificates \
+            qtbase5-dev qttools5-dev-tools libdtkwidget-dev
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure version name
+        id: ver
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/}"
+            VERSION="${VERSION#v}"
+          else
+            # safe.directory: after actions/checkout the repo dir is owned by a
+            # different uid in the container, which makes plain git calls fail
+            VERSION="$(git -c safe.directory='*' describe --tags --always 2>/dev/null | sed 's/^v//' || true)"
+          fi
+          if [ -z "$VERSION" ]; then
+            VERSION="$(date +%Y%m%d)-$(git -c safe.directory='*' rev-parse --short HEAD 2>/dev/null || echo manual)"
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Building version: ${VERSION} for ${{ matrix.arch }}"
+
+      - name: Build
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+          make -C build -j"$(nproc)"
+
+      - name: Stage install tree
+        run: |
+          make -C build install DESTDIR="$PWD/staging"
+
+      - name: Build deb package
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          ARCH="${{ matrix.arch }}"
+          PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}"
+          mkdir -p "${PKGDIR}/DEBIAN"
+          cp -a staging/. "${PKGDIR}/"
+          cat > "${PKGDIR}/DEBIAN/control" <<EOF
+          Package: deepin-screenshot
+          Version: ${VERSION}
+          Architecture: ${ARCH}
+          Maintainer: deepin-screenshot UOS customization
+          Section: utils
+          Priority: optional
+          Description: Advanced screenshot tool (UOS ${ARCH} build)
+           Easy-to-use screenshot tool with region selection and annotations:
+           rectangle, ellipse, arrow, pencil, text and color tools.
+           Provides the com.deepin.Screenshot DBus service.
+           Built without strict Depends; install with "dpkg -i".
+          EOF
+          dpkg-deb --build --root-owner-group "${PKGDIR}"
+
+      - name: Build binary tarball
+        run: |
+          VERSION="${{ steps.ver.outputs.version }}"
+          tar -C staging -czf "deepin-screenshot_${VERSION}_${{ matrix.arch }}.tar.gz" .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepin-screenshot-${{ matrix.arch }}-${{ steps.ver.outputs.version }}
+          path: |
+            pkg/*.deb
+            *.tar.gz
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish GitHub release
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build-deb
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+
+      - name: Create GitHub release and upload assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          cat > release_notes.md <<'EOF'
+          deepin-screenshot custom build (UOS/deepin), based on upstream 4.2.x.
+
+          - Classic deepin screenshot tool: fullscreen / active-window / delayed
+            capture, region selection with rectangle, ellipse, arrow, pencil,
+            text and color annotation tools
+          - Provides the com.deepin.Screenshot DBus service
+
+          Built against Qt 5.15 and DTK 5.5 (Debian bookworm) on native runners.
+          Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
+          Install: `sudo dpkg -i deepin-screenshot_*.deb` (no strict Depends, a
+          UOS/deepin desktop provides the Qt5/DTK runtime).
+          EOF
+          NOTES_JSON=$(sed 's/\\/\\\\/g; s/"/\\"/g' release_notes.md | awk 'BEGIN{ORS=""} {print $0 "\\n"}')
+
+          API="https://api.github.com/repos/${REPO}"
+          AUTH="Authorization: Bearer ${GH_TOKEN}"
+
+          RELEASE_ID=$(curl -sf -X POST -H "$AUTH" -H "Accept: application/vnd.github+json" \
+            "$API/releases" \
+            -d "{\"tag_name\":\"${TAG_NAME}\",\"name\":\"deepin-screenshot ${TAG_NAME#v} (UOS)\",\"target_commitish\":\"master\",\"body\":\"${NOTES_JSON}\"}" \
+            | grep -o '"id": *[0-9]*' | head -1 | grep -oE '[0-9]+')
+
+          if [ -z "$RELEASE_ID" ]; then
+            # release for this tag already exists: reuse it
+            RELEASE_ID=$(curl -sf -H "$AUTH" -H "Accept: application/vnd.github+json" \
+              "$API/releases/tags/${TAG_NAME}" | grep -o '"id": *[0-9]*' | head -1 | grep -oE '[0-9]+')
+          fi
+          test -n "$RELEASE_ID"
+
+          for ASSET in $(find assets -type f); do
+            curl -sf -X POST -H "$AUTH" -H "Content-Type: application/octet-stream" \
+              --data-binary @"$ASSET" \
+              "https://uploads.github.com/repos/${REPO}/releases/${RELEASE_ID}/assets?name=$(basename "$ASSET")" > /dev/null \
+              || echo "failed to upload $(basename "$ASSET")"
+            echo "uploaded asset: $(basename "$ASSET")"
+          done

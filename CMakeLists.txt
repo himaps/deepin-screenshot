@@ -96,11 +96,9 @@ find_package(Qt5Concurrent REQUIRED)
 find_package(Qt5X11Extras REQUIRED)
 find_package(Qt5DBus REQUIRED)
 find_package(DtkWidget REQUIRED)
-find_package(DtkWm REQUIRED)
 
 add_executable(${BIN_NAME} ${SRCS} ${INTERFACES} src/res.qrc src/widgets/resources.qrc)
 target_include_directories(${BIN_NAME} PUBLIC ${DtkWidget_INCLUDE_DIRS}
-                                              ${DtkWm_INCLUDE_DIRS}
                                               ${XCB_EWMH_INCLUDE_DIRS}
                                               ${DFrameworkDBus_INCLUDE_DIRS}
                                               ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
@@ -110,7 +108,6 @@ target_link_libraries(${BIN_NAME} PRIVATE
     ${XCB_EWMH_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
     ${DtkWidget_LIBRARIES}
-    ${DtkWm_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Concurrent_LIBRARIES}
     ${Qt5X11Extras_LIBRARIES}

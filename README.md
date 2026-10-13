@@ -6,13 +6,9 @@ This is a default screenshot app for Linux Deepin.
 
 ## Dependencies
 
-- Qt (>=5.6),
-- debhelper (>=9),
-- cmake, qt5-default, qtbase5-dev, pkg-config, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools,
-- libxcb-util0-dev, libstartup-notification0-dev,
-- qtbase5-private-dev, qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, x11proto-record-dev,libxtst-dev,
-- libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev,
-- libdtkwidget-dev, libdtkwm-dev, deepin-gettext-tools
+- Qt (>= 5.15),
+- cmake, qtbase5-dev, libqt5x11extras5-dev, qttools5-dev-tools,
+- libdtkwidget-dev (>= 5.5, pulls in libdtkcore-dev / libdtkgui-dev)
 
 ## Installation
 
@@ -21,6 +17,26 @@ This is a default screenshot app for Linux Deepin.
     - firstly, install the dependencies rightly;
     - secondly, run `cd deepin-screenshot`;
     - thirdly, make a directory: build; run `cmake ../`; `make`; `make install`
+
+## Deb packages (UOS / deepin)
+
+Releases are built on GitHub Actions with native runners (amd64 + arm64) inside
+a Debian bookworm container, then packaged manually with `dpkg-deb` without
+strict `Depends` — a UOS/deepin desktop already provides the Qt5/DTK runtime.
+Install with:
+
+    sudo dpkg -i deepin-screenshot_*.deb
+
+To build a deb by hand:
+
+    cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+    make -C build -j$(nproc)
+    make -C build install DESTDIR="$PWD/staging"
+    # copy staging/. into pkg/deepin-screenshot_<version>_<arch>/ with a DEBIAN/control,
+    # then: dpkg-deb --build --root-owner-group pkg/deepin-screenshot_<version>_<arch>
+
+Pushing a `v*` tag (e.g. `v4.2.2`) builds both architectures and publishes a
+GitHub release with the deb and tarball assets.
 
 ## Usage
 Run the command: `deepin-screenshot`
