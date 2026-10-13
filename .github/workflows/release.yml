@@ -53,7 +53,32 @@ jobs:
           done
           apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
             build-essential cmake pkg-config git curl ca-certificates \
-            qtbase5-dev qttools5-dev-tools libdtkwidget-dev
+            qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
+            libxcb-util-dev libx11-dev libxext-dev
+
+      - name: Build dtkwm from source
+        run: |
+          set -e
+          # dtkwm (DScreenWindowsUtil) is not packaged in Debian bookworm, but
+          # deepin-screenshot needs it for multi-screen window selection. It is
+          # a tiny qmake library; build it directly with g++ and moc.
+          git clone --depth 1 --branch 2.0.12 https://github.com/martyr-deepin/dtkwm.git /tmp/dtkwm
+          cd /tmp/dtkwm/src
+          PKGS="Qt5Core Qt5Gui Qt5Widgets Qt5X11Extras Qt5DBus dtkcore xcb xcb-util"
+          inc="$(pkg-config --cflags $PKGS)"
+          libs="$(pkg-config --libs $PKGS)"
+          moc $inc dscreenwindowsutil.h -o moc_dscreenwindowsutil.cpp
+          moc $inc dwindowmanager.h -o moc_dwindowmanager.cpp
+          g++ -std=c++14 -fPIC -O2 -DLIBDTKWM_LIBRARY $inc \
+            -shared -Wl,-soname,libdtkwm.so.2 -o libdtkwm.so.2.0.12 \
+            dscreenwindowsutil.cpp dwindowmanager.cpp \
+            moc_dscreenwindowsutil.cpp moc_dwindowmanager.cpp $libs -lX11 -lXext
+          install -d /usr/include/libdtkwm /usr/lib/${{ matrix.multiarch }}
+          install -m644 dscreenwindowsutil.h dwindowmanager.h dtkwm_global.h /usr/include/libdtkwm/
+          install -m755 libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/
+          ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so
+          ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so.2
+          ldconfig
 
       - name: Checkout
         uses: actions/checkout@v4

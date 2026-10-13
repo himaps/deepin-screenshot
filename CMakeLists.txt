@@ -97,8 +97,19 @@ find_package(Qt5X11Extras REQUIRED)
 find_package(Qt5DBus REQUIRED)
 find_package(DtkWidget REQUIRED)
 
+# dtkwm (DScreenWindowsUtil) is no longer packaged by Debian; the release
+# workflow builds it from source into /usr
+find_package(DtkWm QUIET)
+if (NOT DtkWm_FOUND)
+    find_path(DtkWm_INCLUDE_DIR dscreenwindowsutil.h PATH_SUFFIXES libdtkwm REQUIRED)
+    find_library(DtkWm_LIBRARY dtkwm REQUIRED)
+    set(DtkWm_INCLUDE_DIRS ${DtkWm_INCLUDE_DIR})
+    set(DtkWm_LIBRARIES ${DtkWm_LIBRARY})
+endif ()
+
 add_executable(${BIN_NAME} ${SRCS} ${INTERFACES} src/res.qrc src/widgets/resources.qrc)
 target_include_directories(${BIN_NAME} PUBLIC ${DtkWidget_INCLUDE_DIRS}
+                                              ${DtkWm_INCLUDE_DIRS}
                                               ${XCB_EWMH_INCLUDE_DIRS}
                                               ${DFrameworkDBus_INCLUDE_DIRS}
                                               ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
@@ -108,6 +119,7 @@ target_link_libraries(${BIN_NAME} PRIVATE
     ${XCB_EWMH_LIBRARIES}
     ${DFrameworkDBus_LIBRARIES}
     ${DtkWidget_LIBRARIES}
+    ${DtkWm_LIBRARIES}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Concurrent_LIBRARIES}
     ${Qt5X11Extras_LIBRARIES}
