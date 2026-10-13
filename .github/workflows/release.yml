@@ -77,8 +77,36 @@ jobs:
 
       - name: Build
         run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-          make -C build -j"$(nproc)"
+          set -o pipefail
+          {
+            cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+            make -C build -j"$(nproc)"
+          } 2>&1 | tee build.log
+
+      - name: Build diagnostics on failure
+        if: failure()
+        run: |
+          {
+            echo "## Build log tail"
+            echo '```'
+            tail -n 400 build.log 2>/dev/null || echo "(no build.log)"
+            echo '```'
+            echo "## Toolchain & packages"
+            echo '```'
+            cmake --version | head -1
+            g++ --version | head -1
+            dpkg -l | grep -Ei 'dtk|qt5' | awk '{print $2, $3}'
+            echo '```'
+            echo "## CMake package configs found"
+            echo '```'
+            ls -d /usr/lib/*/cmake/* 2>/dev/null || true
+            find /usr -name 'DtkWidgetConfig.cmake' 2>/dev/null || true
+            echo '```'
+            echo "## CMakeError.log"
+            echo '```'
+            cat build/build/CMakeFiles/CMakeError.log 2>/dev/null || echo "(none)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Stage install tree
         run: |
