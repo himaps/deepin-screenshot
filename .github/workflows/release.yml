@@ -179,50 +179,50 @@ jobs:
               cp "$f" "${PKGDIR}/usr/share/deepin-screenshot/deps/"
             done
             cat > "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh" <<'SH'
-#!/bin/sh
-# Install the runtime dependencies bundled in ./deps that are
-# missing on this system. Run once as root after dpkg -i:
-#   sudo /usr/share/deepin-screenshot/install-deps.sh
-set -e
-DIR="$(cd "$(dirname "$0")" && pwd)/deps"
-cd "$DIR"
-MISSING=""
-for f in *.deb; do
-  pkg="$(dpkg-deb -f "$f" Package)"
-  if dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null | grep -q '^ii'; then
-    echo "$pkg: already installed, using the system copy"
-  else
-    echo "$pkg: missing, will install $f"
-    MISSING="$MISSING $f"
-  fi
-done
-if [ -n "$MISSING" ]; then
-  # single dpkg call so packages configure in dependency order
-  dpkg -i $MISSING
-else
-  echo "nothing to install"
-fi
-SH
+          #!/bin/sh
+          # Install the runtime dependencies bundled in ./deps that are
+          # missing on this system. Run once as root after dpkg -i:
+          #   sudo /usr/share/deepin-screenshot/install-deps.sh
+          set -e
+          DIR="$(cd "$(dirname "$0")" && pwd)/deps"
+          cd "$DIR"
+          MISSING=""
+          for f in *.deb; do
+            pkg="$(dpkg-deb -f "$f" Package)"
+            if dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null | grep -q '^ii'; then
+              echo "$pkg: already installed, using the system copy"
+            else
+              echo "$pkg: missing, will install $f"
+              MISSING="$MISSING $f"
+            fi
+          done
+          if [ -n "$MISSING" ]; then
+            # single dpkg call so packages configure in dependency order
+            dpkg -i $MISSING
+          else
+            echo "nothing to install"
+          fi
+          SH
             chmod 755 "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh"
             cat > "${PKGDIR}/DEBIAN/postinst" <<'EOF'
-#!/bin/sh
-echo "Offline machine missing runtime libraries? Run: sudo /usr/share/deepin-screenshot/install-deps.sh"
-EOF
+          #!/bin/sh
+          echo "Offline machine missing runtime libraries? Run: sudo /usr/share/deepin-screenshot/install-deps.sh"
+          EOF
             chmod 755 "${PKGDIR}/DEBIAN/postinst"
             cat > "${PKGDIR}/DEBIAN/control" <<EOF
-Package: deepin-screenshot
-Version: ${VERSION}
-Architecture: ${ARCH}
-Maintainer: deepin-screenshot UOS customization
-Section: utils
-Priority: optional
-Description: Advanced screenshot tool (UOS ${ARCH} offline build)
- Same app as the regular deb, plus a bundled runtime dependency
- closure (deps/) and install-deps.sh for machines without network
- access. Libraries already present on the system are used; only
- missing ones are installed from the bundle. Never replace glibc.
- Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era).
-EOF
+          Package: deepin-screenshot
+          Version: ${VERSION}
+          Architecture: ${ARCH}
+          Maintainer: deepin-screenshot UOS customization
+          Section: utils
+          Priority: optional
+          Description: Advanced screenshot tool (UOS ${ARCH} offline build)
+           Same app as the regular deb, plus a bundled runtime dependency
+           closure (deps/) and install-deps.sh for machines without network
+           access. Libraries already present on the system are used; only
+           missing ones are installed from the bundle. Never replace glibc.
+           Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era).
+          EOF
             dpkg-deb --build --root-owner-group "${PKGDIR}"
           } 2>&1 | tee -a package.log
 
