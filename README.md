@@ -25,7 +25,7 @@ a Debian bookworm container, then packaged manually with `dpkg-deb` without
 strict `Depends` — a UOS/deepin desktop already provides the Qt5/DTK runtime.
 Install with:
 
-    sudo dpkg -i deepin-screenshot_*.deb
+    sudo dpkg -i deepin-screenshot-*.deb
 
 To build a deb by hand:
 
@@ -40,14 +40,14 @@ GitHub release with the deb and tarball assets.
 
 ## 离线环境安装（offline install）
 
-Release 提供两个 deb 变体，按需二选一：
+Release 提供两个 deb 变体，按需二选一（文件名格式：`deepin-screenshot-<版本>-linux-<架构>[-offline].deb`，架构为 amd64 / aarch64）：
 
-- `deepin-screenshot_<版本>_<架构>.deb` — 常规包，适合已具备 Qt5/DTK 运行时的 UOS/deepin 桌面。
-- `deepin-screenshot_<版本>_<架构>-offline.deb` — 离线包，在常规内容之外额外打包了运行时依赖闭包（`deps/*.deb`）和 `install-deps.sh`。
+- `deepin-screenshot-<版本>-linux-<架构>.deb` — 常规包，适合已具备 Qt5/DTK 运行时的 UOS/deepin 桌面。
+- `deepin-screenshot-<版本>-linux-<架构>-offline.deb` — 离线包，在常规内容之外额外打包了运行时依赖闭包（`deps/*.deb`）和安装脚本。
 
 安装方式与常规包相同：
 
-    sudo dpkg -i deepin-screenshot_<版本>_<架构>-offline.deb
+    sudo dpkg -i deepin-screenshot-<版本>-linux-<架构>-offline.deb
 
 如果目标机缺少运行时库，安装后再执行一次：
 

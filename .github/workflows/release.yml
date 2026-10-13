@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   build-deb:
-    name: Build ${{ matrix.arch }} packages
+    name: Build ${{ matrix.osarch }} packages
     strategy:
       fail-fast: false
       matrix:
@@ -24,9 +24,11 @@ jobs:
           - arch: arm64
             runner: ubuntu-24.04-arm
             multiarch: aarch64-linux-gnu
+            osarch: linux-aarch64
           - arch: amd64
             runner: ubuntu-24.04
             multiarch: x86_64-linux-gnu
+            osarch: linux-amd64
     # Native runners produce native builds, no cross compilation needed
     runs-on: ${{ matrix.runner }}
     # Build inside Debian bookworm (current oldstable, fully served): Qt 5.15,
@@ -120,6 +122,7 @@ jobs:
           VERSION="${{ steps.ver.outputs.version }}"
           ARCH="${{ matrix.arch }}"
           PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}"
+          DEBOUT="pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}.deb"
           {
             mkdir -p "${PKGDIR}/DEBIAN"
             cp -a staging/. "${PKGDIR}/"
@@ -140,7 +143,7 @@ jobs:
            Provides the com.deepin.Screenshot DBus service.
            Built without strict Depends; install with "dpkg -i".
           EOF
-            dpkg-deb --build --root-owner-group "${PKGDIR}"
+            dpkg-deb --build --root-owner-group "${PKGDIR}" "${DEBOUT}"
           } 2>&1 | tee package.log
 
       - name: Build offline deb package
@@ -150,6 +153,7 @@ jobs:
           ARCH="${{ matrix.arch }}"
           TRIPLE="${{ matrix.multiarch }}"
           PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}-offline"
+          DEBOUT="pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}-offline.deb"
           {
             mkdir -p "${PKGDIR}/DEBIAN"
             cp -a staging/. "${PKGDIR}/"
@@ -226,19 +230,19 @@ jobs:
            missing ones are installed from the bundle. Never replace glibc.
            Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era).
           EOF
-            dpkg-deb --build --root-owner-group "${PKGDIR}"
+            dpkg-deb --build --root-owner-group "${PKGDIR}" "${DEBOUT}"
           } 2>&1 | tee -a package.log
 
       - name: Build binary tarball
         run: |
           set -o pipefail
           VERSION="${{ steps.ver.outputs.version }}"
-          tar -C staging -czf "deepin-screenshot_${VERSION}_${{ matrix.arch }}.tar.gz" . 2>&1 | tee -a package.log
+          tar -C staging -czf "deepin-screenshot-${VERSION}-${{ matrix.osarch }}.tar.gz" . 2>&1 | tee -a package.log
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: deepin-screenshot-${{ matrix.arch }}-${{ steps.ver.outputs.version }}
+          name: deepin-screenshot-${{ matrix.osarch }}-${{ steps.ver.outputs.version }}
           path: |
             pkg/*.deb
             *.tar.gz
@@ -274,7 +278,7 @@ jobs:
           Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era); for very
           old UOS 20 devices prefer an on-device build.
           Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
-          Install: `sudo dpkg -i deepin-screenshot_*.deb` (no strict Depends, a
+          Install: `sudo dpkg -i deepin-screenshot-*.deb` (no strict Depends, a
           UOS/deepin desktop provides the Qt5/DTK runtime).
 
           Offline machines: grab the -offline deb instead. It bundles the
