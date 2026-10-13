@@ -108,6 +108,13 @@ if (NOT DtkWm_FOUND)
 endif ()
 
 add_executable(${BIN_NAME} ${SRCS} ${INTERFACES} src/res.qrc src/widgets/resources.qrc)
+
+# when the fallback dtkwm is used, ship the library beside the binary and
+# resolve it at runtime through an rpath, so the deb is self-contained
+if (NOT DtkWm_FOUND)
+    set_target_properties(${BIN_NAME} PROPERTIES
+        INSTALL_RPATH "/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/deepin-screenshot")
+endif ()
 target_include_directories(${BIN_NAME} PUBLIC ${DtkWidget_INCLUDE_DIRS}
                                               ${DtkWm_INCLUDE_DIRS}
                                               ${XCB_EWMH_INCLUDE_DIRS}

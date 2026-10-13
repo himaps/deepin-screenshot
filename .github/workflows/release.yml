@@ -123,6 +123,10 @@ jobs:
           {
             mkdir -p "${PKGDIR}/DEBIAN"
             cp -a staging/. "${PKGDIR}/"
+            # bundle the self-built dtkwm beside the binary (resolved via rpath)
+            mkdir -p "${PKGDIR}/usr/lib/${{ matrix.multiarch }}/deepin-screenshot"
+            cp -a /usr/lib/${{ matrix.multiarch }}/libdtkwm.so* \
+              "${PKGDIR}/usr/lib/${{ matrix.multiarch }}/deepin-screenshot/"
             cat > "${PKGDIR}/DEBIAN/control" <<EOF
           Package: deepin-screenshot
           Version: ${VERSION}
