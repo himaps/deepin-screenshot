@@ -163,9 +163,12 @@ jobs:
             # already exist on the system are used as-is.
             mkdir -p "${PKGDIR}/usr/share/deepin-screenshot/deps" /tmp/offline-cache
             LIBS="$(ldd staging/usr/bin/deepin-screenshot | awk '{print $1}' | sort -u)"
+            echo "linked libs: $LIBS"
             TOP=""
             for lib in $LIBS; do
-              p="$(dpkg -S "$lib" 2>/dev/null | head -1 | cut -d: -f1)"
+              # dpkg -S exits 1 for loader-internal libs (linux-vdso etc.);
+              # || true keeps set -e from exiting silently on the assignment
+              p="$(dpkg -S "$lib" 2>/dev/null | head -1 | cut -d: -f1 || true)"
               [ -n "$p" ] && TOP="$TOP $p"
             done
             echo "offline deps closure:$TOP"
