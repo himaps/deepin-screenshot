@@ -143,6 +143,89 @@ jobs:
             dpkg-deb --build --root-owner-group "${PKGDIR}"
           } 2>&1 | tee package.log
 
+      - name: Build offline deb package
+        run: |
+          set -o pipefail
+          VERSION="${{ steps.ver.outputs.version }}"
+          ARCH="${{ matrix.arch }}"
+          TRIPLE="${{ matrix.multiarch }}"
+          PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}-offline"
+          {
+            mkdir -p "${PKGDIR}/DEBIAN"
+            cp -a staging/. "${PKGDIR}/"
+            mkdir -p "${PKGDIR}/usr/lib/${TRIPLE}/deepin-screenshot"
+            cp -a /usr/lib/${TRIPLE}/libdtkwm.so* \
+              "${PKGDIR}/usr/lib/${TRIPLE}/deepin-screenshot/"
+
+            # Bundle the runtime dependency closure so the app can be
+            # installed and run on machines without network access.
+            # install-deps.sh installs only what is missing; libraries that
+            # already exist on the system are used as-is.
+            mkdir -p "${PKGDIR}/usr/share/deepin-screenshot/deps" /tmp/offline-cache
+            LIBS="$(ldd staging/usr/bin/deepin-screenshot | awk '{print $1}' | sort -u)"
+            TOP=""
+            for lib in $LIBS; do
+              p="$(dpkg -S "$lib" 2>/dev/null | head -1 | cut -d: -f1)"
+              [ -n "$p" ] && TOP="$TOP $p"
+            done
+            echo "offline deps closure:$TOP"
+            apt-get install --reinstall --download-only --no-install-recommends \
+              -y -o Dir::Cache::archives="/tmp/offline-cache" $TOP
+            for f in /tmp/offline-cache/*.deb; do
+              p="$(dpkg-deb -f "$f" Package)"
+              [ "$(dpkg-deb -f "$f" Essential)" = "yes" ] && continue
+              # glibc must never be replaced by a bundled copy
+              [ "$p" = "libc6" ] && continue
+              cp "$f" "${PKGDIR}/usr/share/deepin-screenshot/deps/"
+            done
+            cat > "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh" <<'SH'
+            #!/bin/sh
+            # Install the runtime dependencies bundled in ./deps that are
+            # missing on this system. Run once as root after dpkg -i:
+            #   sudo /usr/share/deepin-screenshot/install-deps.sh
+            set -e
+            DIR="$(cd "$(dirname "$0")" && pwd)/deps"
+            cd "$DIR"
+            MISSING=""
+            for f in *.deb; do
+              pkg="$(dpkg-deb -f "$f" Package)"
+              if dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null | grep -q '^ii'; then
+                echo "$pkg: already installed, using the system copy"
+              else
+                echo "$pkg: missing, will install $f"
+                MISSING="$MISSING $f"
+              fi
+            done
+            if [ -n "$MISSING" ]; then
+              # single dpkg call so packages configure in dependency order
+              dpkg -i $MISSING
+            else
+              echo "nothing to install"
+            fi
+            SH
+            chmod 755 "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh"
+            cat > "${PKGDIR}/DEBIAN/postinst" <<'EOF'
+            #!/bin/sh
+            echo "Offline machine missing runtime libraries? Run: sudo /usr/share/deepin-screenshot/install-deps.sh"
+            EOF
+            chmod 755 "${PKGDIR}/DEBIAN/postinst"
+            cat > "${PKGDIR}/DEBIAN/control" <<EOF
+            Package: deepin-screenshot
+            Version: ${VERSION}
+            Architecture: ${ARCH}
+            Maintainer: deepin-screenshot UOS customization
+            Section: utils
+            Priority: optional
+            Description: Advanced screenshot tool (UOS ${ARCH} offline build)
+             Same app as the regular deb, plus a bundled runtime dependency
+             closure (deps/) and install-deps.sh for machines without network
+             access. Libraries already present on the system are used; only
+             missing ones are installed from the bundle. Never replace glibc.
+             Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era).
+            EOF
+            dpkg-deb --build --root-owner-group "${PKGDIR}"
+          } 2>&1 | tee -a package.log
+
       - name: Build binary tarball
         run: |
           set -o pipefail
@@ -185,9 +268,17 @@ jobs:
           - Provides the com.deepin.Screenshot DBus service
 
           Built against Qt 5.15 and DTK 5.5 (Debian bookworm) on native runners.
+          Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era); for very
+          old UOS 20 devices prefer an on-device build.
           Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
           Install: `sudo dpkg -i deepin-screenshot_*.deb` (no strict Depends, a
           UOS/deepin desktop provides the Qt5/DTK runtime).
+
+          Offline machines: grab the -offline deb instead. It bundles the
+          runtime dependency closure; after dpkg -i, run
+          `sudo /usr/share/deepin-screenshot/install-deps.sh` once — it
+          installs only the libraries missing on that system, already
+          installed ones are used as-is.
           EOF
           NOTES_JSON=$(sed 's/\\/\\\\/g; s/"/\\"/g' release_notes.md | awk 'BEGIN{ORS=""} {print $0 "\\n"}')
 
