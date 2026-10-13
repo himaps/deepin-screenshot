@@ -94,9 +94,11 @@ jobs:
             # different uid in the container, which makes plain git calls fail
             VERSION="$(git -c safe.directory='*' describe --tags --always 2>/dev/null | sed 's/^v//' || true)"
           fi
-          if [ -z "$VERSION" ]; then
-            VERSION="$(date +%Y%m%d)-$(git -c safe.directory='*' rev-parse --short HEAD 2>/dev/null || echo manual)"
-          fi
+          # a Debian version must start with a digit; a bare git describe SHA
+          # (no tags in the repo) would be rejected by dpkg-deb
+          case "$VERSION" in
+            ''|[^0-9]*) VERSION="0.0.0-${VERSION:-manual}" ;;
+          esac
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Building version: ${VERSION} for ${{ matrix.arch }}"
 
@@ -108,32 +110,51 @@ jobs:
             make -C build -j"$(nproc)"
           } 2>&1 | tee build.log
 
-      - name: Build diagnostics on failure
-        if: failure()
+      - name: Stage install tree
         run: |
-          {
-            echo "## Build log tail"
-            echo '```'
-            tail -n 400 build.log 2>/dev/null || echo "(no build.log)"
-            echo '```'
-            echo "## Toolchain & packages"
-            echo '```'
-            cmake --version | head -1
-            g++ --version | head -1
-            dpkg -l | grep -Ei 'dtk|qt5' | awk '{print $2, $3}'
-            echo '```'
-            echo "## CMake package configs found"
-            echo '```'
-            ls -d /usr/lib/*/cmake/* 2>/dev/null || true
-            find /usr -name 'DtkWidgetConfig.cmake' 2>/dev/null || true
-            echo '```'
-            echo "## CMakeError.log"
-            echo '```'
-            cat build/build/CMakeFiles/CMakeError.log 2>/dev/null || echo "(none)"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          make -C build install DESTDIR="$PWD/staging" 2>&1 | tee stage.log
 
-      - name: Save build log to ci-logs branch on failure
+      - name: Build deb package
+        run: |
+          set -o pipefail
+          VERSION="${{ steps.ver.outputs.version }}"
+          ARCH="${{ matrix.arch }}"
+          PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}"
+          {
+            mkdir -p "${PKGDIR}/DEBIAN"
+            cp -a staging/. "${PKGDIR}/"
+            cat > "${PKGDIR}/DEBIAN/control" <<EOF
+          Package: deepin-screenshot
+          Version: ${VERSION}
+          Architecture: ${ARCH}
+          Maintainer: deepin-screenshot UOS customization
+          Section: utils
+          Priority: optional
+          Description: Advanced screenshot tool (UOS ${ARCH} build)
+           Easy-to-use screenshot tool with region selection and annotations:
+           rectangle, ellipse, arrow, pencil, text and color tools.
+           Provides the com.deepin.Screenshot DBus service.
+           Built without strict Depends; install with "dpkg -i".
+          EOF
+            dpkg-deb --build --root-owner-group "${PKGDIR}"
+          } 2>&1 | tee package.log
+
+      - name: Build binary tarball
+        run: |
+          set -o pipefail
+          VERSION="${{ steps.ver.outputs.version }}"
+          tar -C staging -czf "deepin-screenshot_${VERSION}_${{ matrix.arch }}.tar.gz" . 2>&1 | tee -a package.log
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deepin-screenshot-${{ matrix.arch }}-${{ steps.ver.outputs.version }}
+          path: |
+            pkg/*.deb
+            *.tar.gz
+          if-no-files-found: error
+
+      - name: Save logs to ci-logs branch on failure
         if: failure()
         env:
           TOKEN: ${{ github.token }}
@@ -152,51 +173,12 @@ jobs:
           fi
           git config user.email "ci@users.noreply.github.com"
           git config user.name "ci-bot"
-          cp "$GITHUB_WORKSPACE/build.log" "./build-${ARCH}-${STAMP}.log" 2>/dev/null || true
-          cp "$GITHUB_WORKSPACE/build/build/CMakeFiles/CMakeError.log" "./cmake-error-${ARCH}-${STAMP}.log" 2>/dev/null || true
+          for f in build.log stage.log package.log; do
+            cp "$GITHUB_WORKSPACE/$f" "./${f%.log}-${ARCH}-${STAMP}.log" 2>/dev/null || true
+          done
           git add -A
           git commit -m "ci log: ${ARCH} build failure at ${GITHUB_SHA}"
           git push origin ci-logs
-
-      - name: Stage install tree
-        run: |
-          make -C build install DESTDIR="$PWD/staging"
-
-      - name: Build deb package
-        run: |
-          VERSION="${{ steps.ver.outputs.version }}"
-          ARCH="${{ matrix.arch }}"
-          PKGDIR="pkg/deepin-screenshot_${VERSION}_${ARCH}"
-          mkdir -p "${PKGDIR}/DEBIAN"
-          cp -a staging/. "${PKGDIR}/"
-          cat > "${PKGDIR}/DEBIAN/control" <<EOF
-          Package: deepin-screenshot
-          Version: ${VERSION}
-          Architecture: ${ARCH}
-          Maintainer: deepin-screenshot UOS customization
-          Section: utils
-          Priority: optional
-          Description: Advanced screenshot tool (UOS ${ARCH} build)
-           Easy-to-use screenshot tool with region selection and annotations:
-           rectangle, ellipse, arrow, pencil, text and color tools.
-           Provides the com.deepin.Screenshot DBus service.
-           Built without strict Depends; install with "dpkg -i".
-          EOF
-          dpkg-deb --build --root-owner-group "${PKGDIR}"
-
-      - name: Build binary tarball
-        run: |
-          VERSION="${{ steps.ver.outputs.version }}"
-          tar -C staging -czf "deepin-screenshot_${VERSION}_${{ matrix.arch }}.tar.gz" .
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: deepin-screenshot-${{ matrix.arch }}-${{ steps.ver.outputs.version }}
-          path: |
-            pkg/*.deb
-            *.tar.gz
-          if-no-files-found: error
 
   publish-release:
     name: Publish GitHub release
