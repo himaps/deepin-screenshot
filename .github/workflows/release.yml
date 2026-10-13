@@ -108,6 +108,31 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Save build log to ci-logs branch on failure
+        if: failure()
+        env:
+          TOKEN: ${{ github.token }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          set -e
+          STAMP="$(date +%Y%m%d%H%M%S)"
+          git clone --no-checkout "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/logsrepo
+          cd /tmp/logsrepo
+          if git ls-remote --heads origin ci-logs | grep -q ci-logs; then
+            git fetch --depth 1 origin ci-logs
+            git checkout ci-logs
+          else
+            git checkout --orphan ci-logs
+            git rm -rf --ignore-unmatch . >/dev/null 2>&1 || true
+          fi
+          git config user.email "ci@users.noreply.github.com"
+          git config user.name "ci-bot"
+          cp "$GITHUB_WORKSPACE/build.log" "./build-${ARCH}-${STAMP}.log" 2>/dev/null || true
+          cp "$GITHUB_WORKSPACE/build/build/CMakeFiles/CMakeError.log" "./cmake-error-${ARCH}-${STAMP}.log" 2>/dev/null || true
+          git add -A
+          git commit -m "ci log: ${ARCH} build failure at ${GITHUB_SHA}"
+          git push origin ci-logs
+
       - name: Stage install tree
         run: |
           make -C build install DESTDIR="$PWD/staging"
