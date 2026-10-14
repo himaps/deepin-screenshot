@@ -191,6 +191,7 @@ jobs:
           # missing on this system. Run once as root after dpkg -i:
           #   sudo /usr/share/deepin-screenshot/install-deps.sh
           set -e
+          BIN=/usr/bin/deepin-screenshot
           DIR="$(cd "$(dirname "$0")" && pwd)/deps"
           cd "$DIR"
           MISSING=""
@@ -209,11 +210,38 @@ jobs:
           else
             echo "nothing to install"
           fi
+          echo ""
+          STILL="$(ldd "$BIN" 2>/dev/null | awk '/not found/ {print $1}')"
+          if [ -n "$STILL" ]; then
+            echo "WARNING: these libraries are still missing, the app will not start:"
+            echo "$STILL"
+            exit 1
+          fi
+          echo "OK: all runtime libraries resolved. deepin-screenshot is ready."
           SH
             chmod 755 "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh"
             cat > "${PKGDIR}/DEBIAN/postinst" <<'EOF'
           #!/bin/sh
-          echo "Offline machine missing runtime libraries? Run: sudo /usr/share/deepin-screenshot/install-deps.sh"
+          # dpkg holds its lock while this script runs, so the bundled dependency
+          # debs cannot be installed here directly. Detect missing libraries and
+          # schedule the installer to run via systemd once the lock is released.
+          MISSING="$(ldd /usr/bin/deepin-screenshot 2>/dev/null | awk '/not found/ {print $1}')"
+          if [ -z "$MISSING" ]; then
+            echo "deepin-screenshot: all runtime libraries present, nothing to do."
+            exit 0
+          fi
+          echo "deepin-screenshot: missing runtime libraries:"
+          echo "$MISSING" | sed 's/^/  /'
+          if command -v systemd-run >/dev/null 2>&1; then
+            echo "deepin-screenshot: auto-installing them from the bundled offline deps in 10s"
+            echo "  (same as running: sudo /usr/share/deepin-screenshot/install-deps.sh)"
+            systemd-run --on-active=10 --quiet --unit=deepin-screenshot-deps \
+              /usr/share/deepin-screenshot/install-deps.sh 2>/dev/null \
+              || echo "deepin-screenshot: auto-install could not be scheduled; run the command above manually."
+          else
+            echo "deepin-screenshot: run this once to install them from the bundled offline deps:"
+            echo "  sudo /usr/share/deepin-screenshot/install-deps.sh"
+          fi
           EOF
             chmod 755 "${PKGDIR}/DEBIAN/postinst"
             cat > "${PKGDIR}/DEBIAN/control" <<EOF

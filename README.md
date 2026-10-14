@@ -49,11 +49,21 @@ Release 提供两个 deb 变体，按需二选一（文件名格式：`deepin-sc
 
     sudo dpkg -i deepin-screenshot-<版本>-linux-<架构>-offline.deb
 
-如果目标机缺少运行时库，安装后再执行一次：
+安装结束时 postinst 会用 `ldd` 检测缺失的运行库：**全部齐备则无事发生；有缺失则自动通过 systemd 延迟 10 秒执行依赖安装**（等 dpkg 锁释放，等同手动执行下述脚本，结果在 `journalctl -u deepin-screenshot-deps`）。systemd 不可用时回退为提示手动执行：
 
     sudo /usr/share/deepin-screenshot/install-deps.sh
 
-脚本逻辑：逐个检查 `deps/` 里的依赖包，**系统里已安装的直接用系统的，缺失的才安装**（合并成一次 `dpkg -i` 调用，由 dpkg 按依赖顺序配置）。系统不缺库时可以不执行，不产生任何改动。
+脚本逻辑：逐个检查 `deps/` 里的依赖包，**系统里已安装的直接用系统的，缺失的才安装**（合并成一次 `dpkg -i` 调用，由 dpkg 按依赖顺序配置）。执行完再做一次 `ldd` 校验，明确报告"全部就绪"或仍缺失的库。
+
+### 常见问题：运行报 `error while loading shared libraries: libdtkwidget.so.5`
+
+这是目标机上没有 Qt5/DTK 运行库，说明装的是**常规包**，或装了离线包但依赖安装没有执行。处理：
+
+1. 确认装的是 `-offline` 后缀的离线包，且架构与机器一致（`linux-aarch64` 对应 ARM64）；
+2. 执行一次 `sudo /usr/share/deepin-screenshot/install-deps.sh`，看到 `OK: all runtime libraries resolved` 即可正常运行；
+3. 若脚本报 `WARNING: these libraries are still missing`，把输出发回来排查。
+
+注意 glibc 边界仍然适用：bookworm 构建产物要求目标机 glibc ≥ 2.34，更老的系统装了依赖库也无法运行。
 
 两个硬边界：
 
