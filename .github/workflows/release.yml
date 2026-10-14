@@ -44,24 +44,27 @@ jobs:
     steps:
       - name: Install build dependencies
         run: |
-          set -e
-          for attempt in 1 2 3 4; do
-            if apt-get update; then
-              break
-            fi
-            echo "apt-get update failed (attempt $attempt), retrying in 20s" >&2
-            if [ "$attempt" = "4" ]; then
-              exit 1
-            fi
-            sleep 20
-          done
-          # libxcb-util-dev was renamed from libxcb-util0-dev
-          XCBUTIL=libxcb-util0-dev
-          apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
-          apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
-            build-essential cmake pkg-config git curl ca-certificates \
-            qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
-            "$XCBUTIL" libx11-dev libxext-dev
+          set -o pipefail
+          {
+            set -e
+            for attempt in 1 2 3 4; do
+              if apt-get update; then
+                break
+              fi
+              echo "apt-get update failed (attempt $attempt), retrying in 20s" >&2
+              if [ "$attempt" = "4" ]; then
+                exit 1
+              fi
+              sleep 20
+            done
+            # libxcb-util-dev was renamed from libxcb-util0-dev
+            XCBUTIL=libxcb-util0-dev
+            apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
+            apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+              build-essential cmake pkg-config git curl ca-certificates \
+              qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
+              "$XCBUTIL" libx11-dev libxext-dev
+          } 2>&1 | tee build.log
 
       - name: Build dtkwm from source
         run: |
@@ -312,6 +315,32 @@ jobs:
             pkg/*.deb
             *.tar.gz
           if-no-files-found: error
+
+      - name: Save logs to ci-logs branch on failure
+        if: failure()
+        env:
+          TOKEN: ${{ github.token }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          set -e
+          STAMP="$(date +%Y%m%d%H%M%S)"
+          git clone --no-checkout "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" /tmp/logsrepo
+          cd /tmp/logsrepo
+          if git ls-remote --heads origin ci-logs | grep -q ci-logs; then
+            git fetch --depth 1 origin ci-logs
+            git checkout ci-logs
+          else
+            git checkout --orphan ci-logs
+            git rm -rf --ignore-unmatch . >/dev/null 2>&1 || true
+          fi
+          git config user.email "ci@users.noreply.github.com"
+          git config user.name "ci-bot"
+          for f in build.log stage.log package.log; do
+            cp "$GITHUB_WORKSPACE/$f" "./${f%.log}-${ARCH}-${STAMP}.log" 2>/dev/null || true
+          done
+          git add -A
+          git commit -m "ci log: ${ARCH} build failure at ${GITHUB_SHA}"
+          git push origin ci-logs
 
   publish-release:
     name: Publish GitHub release
