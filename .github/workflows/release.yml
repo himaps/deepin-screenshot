@@ -42,14 +42,6 @@ jobs:
       PKG_CONFIG_PATH: /usr/lib/${{ matrix.multiarch }}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 
     steps:
-      - name: Point apt at the bullseye archive
-        run: |
-          set -e
-          # bullseye has left deb.debian.org after its LTS end; the Debian
-          # archive still serves every suite this build needs
-          sed -i 's|deb.debian.org/debian-security|archive.debian.org/debian-security|g; s|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/sources.list
-          echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
-
       - name: Install build dependencies
         run: |
           set -e
