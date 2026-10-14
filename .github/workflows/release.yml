@@ -31,15 +31,25 @@ jobs:
             osarch: linux-amd64
     # Native runners produce native builds, no cross compilation needed
     runs-on: ${{ matrix.runner }}
-    # Build inside Debian bookworm (current oldstable, fully served): Qt 5.15,
-    # DTK 5.5, glibc 2.36. For very old UOS 20 devices prefer an on-device build.
-    container: debian:bookworm-slim
+    # Build inside Debian bullseye: glibc 2.31 matches the Kylin V20 target
+    # (Ubuntu 20.04 base, glibc 2.31-0kylin) and still runs on anything newer
+    # (deepin 20/23, Debian 12). For even older UOS 20 (glibc 2.28) prefer an
+    # on-device build.
+    container: debian:bullseye-slim
     env:
       # The bookworm-slim container's pkg-config does not search the multiarch
       # pkgconfig directory on its own
       PKG_CONFIG_PATH: /usr/lib/${{ matrix.multiarch }}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 
     steps:
+      - name: Point apt at the bullseye archive
+        run: |
+          set -e
+          # bullseye has left deb.debian.org after its LTS end; the Debian
+          # archive still serves every suite this build needs
+          sed -i 's|deb.debian.org/debian-security|archive.debian.org/debian-security|g; s|deb.debian.org/debian|archive.debian.org/debian|g' /etc/apt/sources.list
+          echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
+
       - name: Install build dependencies
         run: |
           set -e
@@ -53,10 +63,13 @@ jobs:
             fi
             sleep 20
           done
+          # libxcb-util-dev was renamed from libxcb-util0-dev
+          XCBUTIL=libxcb-util0-dev
+          apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
           apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
             build-essential cmake pkg-config git curl ca-certificates \
             qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
-            libxcb-util-dev libx11-dev libxext-dev
+            "$XCBUTIL" libx11-dev libxext-dev
 
       - name: Build dtkwm from source
         run: |
@@ -175,9 +188,31 @@ jobs:
               p="$(dpkg -S "$lib" 2>/dev/null | head -1 | cut -d: -f1 || true)"
               [ -n "$p" ] && TOP="$TOP $p"
             done
-            echo "offline deps closure:$TOP"
-            apt-get install --reinstall --download-only --no-install-recommends \
-              -y -o Dir::Cache::archives="/tmp/offline-cache" $TOP
+            echo "offline deps direct closure:$TOP"
+            # Expand to the full recursive Depends closure: target distros
+            # (e.g. Kylin V20, Ubuntu 20.04 base) package some libraries under
+            # different names, so the bundle must contain every indirect
+            # dependency for dpkg -i to succeed offline.
+            PKGS="$TOP"
+            for round in 1 2 3 4 5; do
+              rm -rf /tmp/offline-cache
+              mkdir -p /tmp/offline-cache
+              apt-get install --reinstall --download-only --no-install-recommends \
+                -y -o Dir::Cache::archives="/tmp/offline-cache" $PKGS >/dev/null
+              MORE=""
+              for f in /tmp/offline-cache/*.deb; do
+                deps="$(dpkg-deb -f "$f" Depends 2>/dev/null | sed 's/ ([^)]*)//g' | tr ',' '\n' | sed 's/|.*//; s/^ *//; s/ *$//' | grep -v '^$' || true)"
+                MORE="$MORE $deps"
+              done
+              NEW="$(echo $PKGS $MORE | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+              CUR="$(echo $PKGS | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+              if [ "$NEW" = "$CUR" ]; then
+                echo "closure stable after round $round ($(echo $NEW | wc -w) packages)"
+                break
+              fi
+              PKGS="$NEW"
+              echo "closure round $round grew to $(echo $NEW | wc -w) packages"
+            done
             for f in /tmp/offline-cache/*.deb; do
               p="$(dpkg-deb -f "$f" Package)"
               [ "$(dpkg-deb -f "$f" Essential)" = "yes" ] && continue
@@ -187,9 +222,9 @@ jobs:
             done
             cat > "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh" <<'SH'
           #!/bin/sh
-          # Install the runtime dependencies bundled in ./deps that are
-          # missing on this system. Run once as root after dpkg -i:
-          #   sudo /usr/share/deepin-screenshot/install-deps.sh
+          # Install or upgrade the runtime dependencies bundled in ./deps:
+          # packages installed at an equal or newer version are kept (the system
+          # copy is used), older or missing ones are installed from the bundle.
           set -e
           BIN=/usr/bin/deepin-screenshot
           DIR="$(cd "$(dirname "$0")" && pwd)/deps"
@@ -197,12 +232,22 @@ jobs:
           MISSING=""
           for f in *.deb; do
             pkg="$(dpkg-deb -f "$f" Package)"
-            if dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null | grep -q '^ii'; then
-              echo "$pkg: already installed, using the system copy"
-            else
-              echo "$pkg: missing, will install $f"
-              MISSING="$MISSING $f"
-            fi
+            ver="$(dpkg-deb -f "$f" Version)"
+            stat="$(dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null || true)"
+            case "$stat" in
+              ii*)
+                inst="$(dpkg-query -W -f='${Version}' "$pkg" 2>/dev/null || true)"
+                if dpkg --compare-versions "${inst:-0}" ge "$ver"; then
+                  echo "$pkg: system $inst is up to date, using it"
+                  continue
+                fi
+                echo "$pkg: system $inst is older, upgrading with $f ($ver)"
+                ;;
+              *)
+                echo "$pkg: missing, will install $f ($ver)"
+                ;;
+            esac
+            MISSING="$MISSING $f"
           done
           if [ -n "$MISSING" ]; then
             # single dpkg call so packages configure in dependency order
@@ -256,7 +301,7 @@ jobs:
            closure (deps/) and install-deps.sh for machines without network
            access. Libraries already present on the system are used; only
            missing ones are installed from the bundle. Never replace glibc.
-           Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era).
+           Requires glibc >= 2.31 (Kylin V20 / Debian 11 era or newer).
           EOF
             dpkg-deb --build --root-owner-group "${PKGDIR}" "${DEBOUT}"
           } 2>&1 | tee -a package.log
@@ -302,9 +347,10 @@ jobs:
             text and color annotation tools
           - Provides the com.deepin.Screenshot DBus service
 
-          Built against Qt 5.15 and DTK 5.5 (Debian bookworm) on native runners.
-          Requires glibc >= 2.34 (deepin 23 / V25 / Debian 12 era); for very
-          old UOS 20 devices prefer an on-device build.
+          Built against Qt 5.15 and DTK 5.2 (Debian bullseye) on native runners.
+          Requires glibc >= 2.31: runs on Kylin V20 (Ubuntu 20.04 base),
+          UOS/deepin desktops and anything newer. UOS 20 (glibc 2.28) and
+          other glibc 2.28 systems are not supported.
           Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
           Install: `sudo dpkg -i deepin-screenshot-*.deb` (no strict Depends, a
           UOS/deepin desktop provides the Qt5/DTK runtime).
