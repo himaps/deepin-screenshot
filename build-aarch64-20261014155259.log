@@ -1,0 +1,640 @@
+Get:1 http://deb.debian.org/debian bullseye InRelease [75.1 kB]
+Get:2 http://deb.debian.org/debian-security bullseye-security InRelease [27.1 kB]
+Get:3 http://deb.debian.org/debian bullseye-updates InRelease [44.0 kB]
+Get:4 http://deb.debian.org/debian bullseye/main arm64 Packages [7955 kB]
+Get:5 http://deb.debian.org/debian-security bullseye-security/main arm64 Packages [471 kB]
+Get:6 http://deb.debian.org/debian bullseye-updates/main arm64 Packages [16.3 kB]
+Fetched 8589 kB in 1s (11.8 MB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  binutils binutils-aarch64-linux-gnu binutils-common bzip2 cmake-data cpp
+  cpp-10 dbus dbus-user-session dconf-gsettings-backend dconf-service dmsetup
+  dpkg-dev fontconfig fontconfig-config fonts-dejavu-core g++ g++-10 gcc
+  gcc-10 git-man iso-codes libapparmor1 libarchive13 libargon2-1 libasan6
+  libasound2 libasound2-data libasyncns0 libatomic1 libavahi-client3
+  libavahi-common-data libavahi-common3 libbinutils libblkid-dev libbrotli1
+  libbsd0 libc-dev-bin libc6-dev libcap2 libcap2-bin libcc1-0 libclang1-11
+  libcrypt-dev libcryptsetup12 libctf-nobfd0 libctf0 libcups2 libcups2-dev
+  libcupsimage2 libcupsimage2-dev libcurl3-gnutls libcurl4 libdbus-1-3
+  libdconf1 libdeflate-dev libdeflate0 libdevmapper1.02.1 libdframeworkdbus2
+  libdouble-conversion3 libdpkg-perl libdrm-amdgpu1 libdrm-common
+  libdrm-nouveau2 libdrm-radeon1 libdrm2 libdtkcore-dev libdtkcore5
+  libdtkgui-dev libdtkgui5 libdtkwidget5 libdw1 libedit2 libegl-dev
+  libegl-mesa0 libegl1 libelf1 liberror-perl libevdev2 libexpat1 libffi-dev
+  libflac8 libfontconfig1 libfreetype6 libgbm1 libgcc-10-dev libgdbm-compat4
+  libgdbm6 libgl-dev libgl1 libgl1-mesa-dri libglapi-mesa libglib2.0-0
+  libglib2.0-bin libglib2.0-data libglib2.0-dev libglib2.0-dev-bin
+  libglu1-mesa libglu1-mesa-dev libglvnd0 libglx-dev libglx-mesa0 libglx0
+  libgomp1 libgraphite2-3 libgsettings-qt1 libgstreamer-gl1.0-0
+  libgstreamer-plugins-base1.0-0 libgstreamer1.0-0 libgudev-1.0-0
+  libharfbuzz0b libhyphen0 libice6 libicu67 libinput-bin libinput10 libip4tc2
+  libisl23 libitm1 libjbig-dev libjbig0 libjpeg-dev libjpeg62-turbo
+  libjpeg62-turbo-dev libjson-c5 libjsoncpp24 libkmod2 libldap-2.4-2 libllvm11
+  liblsan0 liblzma-dev libmd0 libmd4c0 libmount-dev libmpc3 libmpdec3 libmpfr6
+  libmtdev1 libncurses6 libncursesw6 libnghttp2-14 libnsl-dev libogg0 libopus0
+  liborc-0.4-0 libpam-systemd libpcre16-3 libpcre2-16-0 libpcre2-32-0
+  libpcre2-dev libpcre2-posix2 libpcre3-dev libpcre32-3 libpcrecpp0v5
+  libperl5.32 libpng-dev libpng16-16 libprocps8 libpsl5 libpthread-stubs0-dev
+  libpulse0 libpython3-stdlib libpython3.9-minimal libpython3.9-stdlib
+  libqt5concurrent5 libqt5core5a libqt5dbus5 libqt5designer5
+  libqt5designercomponents5 libqt5gui5 libqt5help5 libqt5multimedia5
+  libqt5multimediagsttools5 libqt5multimediaquick5 libqt5multimediawidgets5
+  libqt5network5 libqt5positioning5 libqt5printsupport5 libqt5qml5
+  libqt5qmlmodels5 libqt5quick5 libqt5quickwidgets5 libqt5sensors5 libqt5sql5
+  libqt5sql5-sqlite libqt5test5 libqt5webchannel5 libqt5webkit5 libqt5widgets5
+  libqt5x11extras5 libqt5x11extras5-dev libqt5xml5 libreadline8 librhash0
+  librtmp1 libsasl2-2 libsasl2-modules-db libselinux1-dev libsensors-config
+  libsensors5 libsepol1-dev libsm6 libsndfile1 libsqlite3-0 libssh2-1
+  libstartup-notification0 libstdc++-10-dev libtiff-dev libtiff5 libtiffxx5
+  libtirpc-dev libtsan0 libubsan1 libunwind8 libuv1 libvorbis0a libvorbisenc2
+  libvulkan-dev libvulkan1 libwacom-common libwacom2 libwayland-client0
+  libwayland-cursor0 libwayland-egl1 libwayland-server0 libwebp6 libwoff1
+  libwrap0 libx11-6 libx11-data libx11-xcb1 libxau-dev libxau6 libxcb-dri2-0
+  libxcb-dri3-0 libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
+  libxcb-present0 libxcb-randr0 libxcb-render-util0 libxcb-render0
+  libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-util1 libxcb-xfixes0
+  libxcb-xinerama0 libxcb-xinput0 libxcb-xkb1 libxcb1 libxcb1-dev libxdamage1
+  libxdmcp-dev libxdmcp6 libxext6 libxfixes3 libxi6 libxkbcommon-x11-0
+  libxkbcommon0 libxml2 libxrender1 libxshmfence1 libxslt1.1 libxxf86vm1
+  libz3-4 linux-libc-dev lshw make media-types openssl patch perl
+  perl-modules-5.32 procps python3 python3-distutils python3-lib2to3
+  python3-minimal python3.9 python3.9-minimal qdoc-qt5 qhelpgenerator-qt5
+  qt5-assistant qt5-qmake qt5-qmake-bin qtattributionsscanner-qt5
+  qtbase5-dev-tools qtchooser qtmultimedia5-dev readline-common sensible-utils
+  shared-mime-info systemd systemd-sysv ucf uuid-dev x11-common x11proto-dev
+  x11proto-xext-dev xkb-data xorg-sgml-doctools xtrans-dev xz-utils zlib1g-dev
+Suggested packages:
+  binutils-doc bzip2-doc cmake-doc ninja-build cpp-doc gcc-10-locales
+  debian-keyring gcc-10-doc gcc-multilib manpages-dev autoconf automake
+  libtool flex bison gdb gcc-doc gettext-base git-daemon-run
+  | git-daemon-sysvinit git-doc git-el git-email git-gui gitk gitweb git-cvs
+  git-mediawiki git-svn isoquery lrzip libasound2-plugins alsa-utils glibc-doc
+  cups-common gnupg bzr gdbm-l10n libgirepository1.0-dev libglib2.0-doc
+  libgdk-pixbuf2.0-bin | libgdk-pixbuf2.0-dev libxml2-utils
+  libvisual-0.4-plugins gstreamer1.0-tools liblzma-doc opus-tools pulseaudio
+  libthai0 qt5-image-formats-plugins qtwayland5 qt5-qmltooling-plugins
+  lm-sensors libstdc++-10-doc libx11-doc libxcb-doc libxext-doc make-doc ed
+  diffutils-doc perl-doc libterm-readline-gnu-perl
+  | libterm-readline-perl-perl libtap-harness-archive-perl python3-doc
+  python3-tk python3-venv python3.9-venv python3.9-doc binfmt-support qt5-doc
+  default-libmysqlclient-dev firebird-dev libpq-dev libsqlite3-dev
+  unixodbc-dev readline-doc systemd-container policykit-1
+Recommended packages:
+  fakeroot gnupg libalgorithm-merge-perl less ssh-client alsa-ucm-conf
+  alsa-topology-conf manpages manpages-dev libc-devtools libpam-cap
+  libcupsfilters1 libcupsfilters-dev libfile-fcntllock-perl
+  liblocale-gettext-perl dde-qt5integration xdg-user-dirs gstreamer1.0-gl
+  gstreamer1.0-plugins-base libldap-common libgpm2 libpng-tools publicsuffix
+  qttranslations5-l10n libqt5svg5 qt5-gtk-platformtheme geoclue-2.0
+  libsasl2-modules mesa-vulkan-drivers | vulkan-icd libwacom-bin pci.ids
+  usb.ids netbase psmisc libqt5opengl5-dev systemd-timesyncd | time-daemon
+  libnss-systemd
+The following NEW packages will be installed:
+  binutils binutils-aarch64-linux-gnu binutils-common build-essential bzip2
+  ca-certificates cmake cmake-data cpp cpp-10 curl dbus dbus-user-session
+  dconf-gsettings-backend dconf-service dmsetup dpkg-dev fontconfig
+  fontconfig-config fonts-dejavu-core g++ g++-10 gcc gcc-10 git git-man
+  iso-codes libapparmor1 libarchive13 libargon2-1 libasan6 libasound2
+  libasound2-data libasyncns0 libatomic1 libavahi-client3 libavahi-common-data
+  libavahi-common3 libbinutils libblkid-dev libbrotli1 libbsd0 libc-dev-bin
+  libc6-dev libcap2 libcap2-bin libcc1-0 libclang1-11 libcrypt-dev
+  libcryptsetup12 libctf-nobfd0 libctf0 libcups2 libcups2-dev libcupsimage2
+  libcupsimage2-dev libcurl3-gnutls libcurl4 libdbus-1-3 libdconf1
+  libdeflate-dev libdeflate0 libdevmapper1.02.1 libdframeworkdbus2
+  libdouble-conversion3 libdpkg-perl libdrm-amdgpu1 libdrm-common
+  libdrm-nouveau2 libdrm-radeon1 libdrm2 libdtkcore-dev libdtkcore5
+  libdtkgui-dev libdtkgui5 libdtkwidget-dev libdtkwidget5 libdw1 libedit2
+  libegl-dev libegl-mesa0 libegl1 libelf1 liberror-perl libevdev2 libexpat1
+  libffi-dev libflac8 libfontconfig1 libfreetype6 libgbm1 libgcc-10-dev
+  libgdbm-compat4 libgdbm6 libgl-dev libgl1 libgl1-mesa-dri libglapi-mesa
+  libglib2.0-0 libglib2.0-bin libglib2.0-data libglib2.0-dev
+  libglib2.0-dev-bin libglu1-mesa libglu1-mesa-dev libglvnd0 libglx-dev
+  libglx-mesa0 libglx0 libgomp1 libgraphite2-3 libgsettings-qt1
+  libgstreamer-gl1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer1.0-0
+  libgudev-1.0-0 libharfbuzz0b libhyphen0 libice6 libicu67 libinput-bin
+  libinput10 libip4tc2 libisl23 libitm1 libjbig-dev libjbig0 libjpeg-dev
+  libjpeg62-turbo libjpeg62-turbo-dev libjson-c5 libjsoncpp24 libkmod2
+  libldap-2.4-2 libllvm11 liblsan0 liblzma-dev libmd0 libmd4c0 libmount-dev
+  libmpc3 libmpdec3 libmpfr6 libmtdev1 libncurses6 libncursesw6 libnghttp2-14
+  libnsl-dev libogg0 libopus0 liborc-0.4-0 libpam-systemd libpcre16-3
+  libpcre2-16-0 libpcre2-32-0 libpcre2-dev libpcre2-posix2 libpcre3-dev
+  libpcre32-3 libpcrecpp0v5 libperl5.32 libpng-dev libpng16-16 libprocps8
+  libpsl5 libpthread-stubs0-dev libpulse0 libpython3-stdlib
+  libpython3.9-minimal libpython3.9-stdlib libqt5concurrent5 libqt5core5a
+  libqt5dbus5 libqt5designer5 libqt5designercomponents5 libqt5gui5 libqt5help5
+  libqt5multimedia5 libqt5multimediagsttools5 libqt5multimediaquick5
+  libqt5multimediawidgets5 libqt5network5 libqt5positioning5
+  libqt5printsupport5 libqt5qml5 libqt5qmlmodels5 libqt5quick5
+  libqt5quickwidgets5 libqt5sensors5 libqt5sql5 libqt5sql5-sqlite libqt5test5
+  libqt5webchannel5 libqt5webkit5 libqt5widgets5 libqt5x11extras5
+  libqt5x11extras5-dev libqt5xml5 libreadline8 librhash0 librtmp1 libsasl2-2
+  libsasl2-modules-db libselinux1-dev libsensors-config libsensors5
+  libsepol1-dev libsm6 libsndfile1 libsqlite3-0 libssh2-1
+  libstartup-notification0 libstdc++-10-dev libtiff-dev libtiff5 libtiffxx5
+  libtirpc-dev libtsan0 libubsan1 libunwind8 libuv1 libvorbis0a libvorbisenc2
+  libvulkan-dev libvulkan1 libwacom-common libwacom2 libwayland-client0
+  libwayland-cursor0 libwayland-egl1 libwayland-server0 libwebp6 libwoff1
+  libwrap0 libx11-6 libx11-data libx11-dev libx11-xcb1 libxau-dev libxau6
+  libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-icccm4 libxcb-image0
+  libxcb-keysyms1 libxcb-present0 libxcb-randr0 libxcb-render-util0
+  libxcb-render0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-util-dev
+  libxcb-util1 libxcb-xfixes0 libxcb-xinerama0 libxcb-xinput0 libxcb-xkb1
+  libxcb1 libxcb1-dev libxdamage1 libxdmcp-dev libxdmcp6 libxext-dev libxext6
+  libxfixes3 libxi6 libxkbcommon-x11-0 libxkbcommon0 libxml2 libxrender1
+  libxshmfence1 libxslt1.1 libxxf86vm1 libz3-4 linux-libc-dev lshw make
+  media-types openssl patch perl perl-modules-5.32 pkg-config procps python3
+  python3-distutils python3-lib2to3 python3-minimal python3.9
+  python3.9-minimal qdoc-qt5 qhelpgenerator-qt5 qt5-assistant qt5-qmake
+  qt5-qmake-bin qtattributionsscanner-qt5 qtbase5-dev qtbase5-dev-tools
+  qtchooser qtmultimedia5-dev qttools5-dev-tools readline-common
+  sensible-utils shared-mime-info systemd systemd-sysv ucf uuid-dev x11-common
+  x11proto-dev x11proto-xext-dev xkb-data xorg-sgml-doctools xtrans-dev
+  xz-utils zlib1g-dev
+0 upgraded, 318 newly installed, 0 to remove and 0 not upgraded.
+Need to get 203 MB of archives.
+After this operation, 837 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian bullseye/main arm64 libapparmor1 arm64 2.13.6-10 [98.5 kB]
+Err:2 http://deb.debian.org/debian-security bullseye-security/main arm64 libcap2 arm64 1:2.44-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:3 http://deb.debian.org/debian bullseye/main arm64 libargon2-1 arm64 0~20171227-0.2 [18.9 kB]
+Get:4 http://deb.debian.org/debian bullseye/main arm64 dmsetup arm64 2:1.02.175-2.1 [85.1 kB]
+Get:5 http://deb.debian.org/debian bullseye/main arm64 libdevmapper1.02.1 arm64 2:1.02.175-2.1 [126 kB]
+Get:6 http://deb.debian.org/debian bullseye/main arm64 libjson-c5 arm64 0.15-2+deb11u1 [41.6 kB]
+Get:7 http://deb.debian.org/debian bullseye/main arm64 libcryptsetup12 arm64 2:2.3.7-1+deb11u1 [230 kB]
+Get:8 http://deb.debian.org/debian bullseye/main arm64 libip4tc2 arm64 1.8.7-1 [34.1 kB]
+Get:9 http://deb.debian.org/debian bullseye/main arm64 libkmod2 arm64 28-1 [52.5 kB]
+Err:10 http://deb.debian.org/debian-security bullseye-security/main arm64 systemd arm64 247.3-7+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:11 http://deb.debian.org/debian-security bullseye-security/main arm64 systemd-sysv arm64 247.3-7+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Get:12 http://deb.debian.org/debian bullseye/main arm64 libdbus-1-3 arm64 1.12.28-0+deb11u1 [213 kB]
+Err:13 http://deb.debian.org/debian-security bullseye-security/main arm64 libexpat1 arm64 2.2.10-2+deb11u7
+  404  Not Found [IP: 146.75.30.132 80]
+Get:14 http://deb.debian.org/debian bullseye/main arm64 dbus arm64 1.12.28-0+deb11u1 [233 kB]
+Err:15 http://deb.debian.org/debian-security bullseye-security/main arm64 perl-modules-5.32 all 5.32.1-4+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Get:16 http://deb.debian.org/debian bullseye/main arm64 libgdbm6 arm64 1.19-2 [64.0 kB]
+Get:17 http://deb.debian.org/debian bullseye/main arm64 libgdbm-compat4 arm64 1.19-2 [44.6 kB]
+Err:18 http://deb.debian.org/debian-security bullseye-security/main arm64 libperl5.32 arm64 5.32.1-4+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Err:19 http://deb.debian.org/debian-security bullseye-security/main arm64 perl arm64 5.32.1-4+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Err:20 http://deb.debian.org/debian-security bullseye-security/main arm64 libglib2.0-0 arm64 2.66.8-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Get:21 http://deb.debian.org/debian bullseye/main arm64 libelf1 arm64 0.183-1 [164 kB]
+Get:22 http://deb.debian.org/debian bullseye/main arm64 libdw1 arm64 0.183-1 [219 kB]
+Get:23 http://deb.debian.org/debian bullseye/main arm64 libunwind8 arm64 1.3.2-2 [50.5 kB]
+Err:24 http://deb.debian.org/debian-security bullseye-security/main arm64 libcap2-bin arm64 1:2.44-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:25 http://deb.debian.org/debian-security bullseye-security/main arm64 libgstreamer1.0-0 arm64 1.18.4-2.1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:26 http://deb.debian.org/debian bullseye/main arm64 liborc-0.4-0 arm64 1:0.4.32-1 [176 kB]
+Get:27 http://deb.debian.org/debian bullseye/main arm64 iso-codes all 4.6.0-1 [2824 kB]
+Err:28 http://deb.debian.org/debian-security bullseye-security/main arm64 libgstreamer-plugins-base1.0-0 arm64 1.18.4-2+deb11u4
+  404  Not Found [IP: 146.75.30.132 80]
+Get:29 http://deb.debian.org/debian bullseye/main arm64 libhyphen0 arm64 2.8.8-7 [31.6 kB]
+Err:30 http://deb.debian.org/debian-security bullseye-security/main arm64 libicu67 arm64 67.1-7+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:31 http://deb.debian.org/debian bullseye/main arm64 libjpeg62-turbo arm64 1:2.0.6-4 [133 kB]
+Err:32 http://deb.debian.org/debian-security bullseye-security/main arm64 libpng16-16 arm64 1.6.37-3+deb11u4
+  404  Not Found [IP: 146.75.30.132 80]
+Err:33 http://deb.debian.org/debian-security bullseye-security/main arm64 libxml2 arm64 2.9.10+dfsg-6.7+deb11u10
+  404  Not Found [IP: 146.75.30.132 80]
+Get:34 http://deb.debian.org/debian bullseye/main arm64 shared-mime-info arm64 2.0-1 [700 kB]
+Get:35 http://deb.debian.org/debian bullseye/main arm64 libdouble-conversion3 arm64 3.1.5-6.1 [37.6 kB]
+Get:36 http://deb.debian.org/debian bullseye/main arm64 libpcre2-16-0 arm64 10.36-2+deb11u1 [203 kB]
+Err:37 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5core5a arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:38 http://deb.debian.org/debian bullseye/main arm64 libbrotli1 arm64 1.0.9-2+b2 [267 kB]
+Err:39 http://deb.debian.org/debian-security bullseye-security/main arm64 libfreetype6 arm64 2.10.4+dfsg-1+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:40 http://deb.debian.org/debian bullseye/main arm64 sensible-utils all 0.0.14 [14.8 kB]
+Err:41 http://deb.debian.org/debian-security bullseye-security/main arm64 ucf all 3.0043+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:42 http://deb.debian.org/debian bullseye/main arm64 fonts-dejavu-core all 2.37-2 [1069 kB]
+Get:43 http://deb.debian.org/debian bullseye/main arm64 fontconfig-config all 2.13.1-4.2 [281 kB]
+Get:44 http://deb.debian.org/debian bullseye/main arm64 libfontconfig1 arm64 2.13.1-4.2 [344 kB]
+Get:45 http://deb.debian.org/debian bullseye/main arm64 fontconfig arm64 2.13.1-4.2 [416 kB]
+Get:46 http://deb.debian.org/debian bullseye/main arm64 libdrm-common all 2.4.104-1 [14.9 kB]
+Get:47 http://deb.debian.org/debian bullseye/main arm64 libdrm2 arm64 2.4.104-1 [41.3 kB]
+Get:48 http://deb.debian.org/debian bullseye/main arm64 libglvnd0 arm64 1.3.2-1 [44.3 kB]
+Get:49 http://deb.debian.org/debian bullseye/main arm64 libwayland-server0 arm64 1.18.0-2~exp1.1 [33.7 kB]
+Err:50 http://deb.debian.org/debian-security bullseye-security/main arm64 libgbm1 arm64 20.3.5-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:51 http://deb.debian.org/debian-security bullseye-security/main arm64 libglapi-mesa arm64 20.3.5-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:52 http://deb.debian.org/debian bullseye/main arm64 libwayland-client0 arm64 1.18.0-2~exp1.1 [26.5 kB]
+Get:53 http://deb.debian.org/debian bullseye/main arm64 libxau6 arm64 1:1.0.9-1 [19.7 kB]
+Get:54 http://deb.debian.org/debian bullseye/main arm64 libmd0 arm64 1.0.3-3 [27.9 kB]
+Get:55 http://deb.debian.org/debian bullseye/main arm64 libbsd0 arm64 0.11.3-1+deb11u1 [106 kB]
+Get:56 http://deb.debian.org/debian bullseye/main arm64 libxdmcp6 arm64 1:1.1.2-3 [25.4 kB]
+Get:57 http://deb.debian.org/debian bullseye/main arm64 libxcb1 arm64 1.14-3 [138 kB]
+Get:58 http://deb.debian.org/debian bullseye/main arm64 libx11-data all 2:1.7.2-1+deb11u2 [311 kB]
+Get:59 http://deb.debian.org/debian bullseye/main arm64 libx11-6 arm64 2:1.7.2-1+deb11u2 [744 kB]
+Get:60 http://deb.debian.org/debian bullseye/main arm64 libx11-xcb1 arm64 2:1.7.2-1+deb11u2 [204 kB]
+Get:61 http://deb.debian.org/debian bullseye/main arm64 libxcb-dri2-0 arm64 1.14-3 [103 kB]
+Get:62 http://deb.debian.org/debian bullseye/main arm64 libxcb-dri3-0 arm64 1.14-3 [102 kB]
+Get:63 http://deb.debian.org/debian bullseye/main arm64 libxcb-present0 arm64 1.14-3 [101 kB]
+Get:64 http://deb.debian.org/debian bullseye/main arm64 libxcb-sync1 arm64 1.14-3 [105 kB]
+Get:65 http://deb.debian.org/debian bullseye/main arm64 libxcb-xfixes0 arm64 1.14-3 [105 kB]
+Get:66 http://deb.debian.org/debian bullseye/main arm64 libxshmfence1 arm64 1.3-1 [8712 B]
+Err:67 http://deb.debian.org/debian-security bullseye-security/main arm64 libegl-mesa0 arm64 20.3.5-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:68 http://deb.debian.org/debian bullseye/main arm64 libegl1 arm64 1.3.2-1 [34.4 kB]
+Get:69 http://deb.debian.org/debian bullseye/main arm64 libxcb-glx0 arm64 1.14-3 [118 kB]
+Get:70 http://deb.debian.org/debian bullseye/main arm64 libxcb-shm0 arm64 1.14-3 [101 kB]
+Get:71 http://deb.debian.org/debian bullseye/main arm64 libxdamage1 arm64 1:1.1.5-2 [15.7 kB]
+Get:72 http://deb.debian.org/debian bullseye/main arm64 libxext6 arm64 2:1.3.3-1.1 [51.6 kB]
+Get:73 http://deb.debian.org/debian bullseye/main arm64 libxfixes3 arm64 1:5.0.3-2 [22.1 kB]
+Get:74 http://deb.debian.org/debian bullseye/main arm64 libxxf86vm1 arm64 1:1.1.4-1+b2 [20.1 kB]
+Get:75 http://deb.debian.org/debian bullseye/main arm64 libdrm-amdgpu1 arm64 2.4.104-1 [28.0 kB]
+Get:76 http://deb.debian.org/debian bullseye/main arm64 libdrm-nouveau2 arm64 2.4.104-1 [26.1 kB]
+Get:77 http://deb.debian.org/debian bullseye/main arm64 libdrm-radeon1 arm64 2.4.104-1 [29.3 kB]
+Get:78 http://deb.debian.org/debian bullseye/main arm64 libedit2 arm64 3.1-20191231-2+b1 [92.1 kB]
+Get:79 http://deb.debian.org/debian bullseye/main arm64 libz3-4 arm64 4.8.10-1 [6117 kB]
+Get:80 http://deb.debian.org/debian bullseye/main arm64 libllvm11 arm64 1:11.0.1-2 [14.7 MB]
+Get:81 http://deb.debian.org/debian bullseye/main arm64 libsensors-config all 1:3.6.0-7 [32.3 kB]
+Get:82 http://deb.debian.org/debian bullseye/main arm64 libsensors5 arm64 1:3.6.0-7 [51.2 kB]
+Get:83 http://deb.debian.org/debian bullseye/main arm64 libvulkan1 arm64 1.2.162.0-1 [95.7 kB]
+Err:84 http://deb.debian.org/debian-security bullseye-security/main arm64 libgl1-mesa-dri arm64 20.3.5-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:85 http://deb.debian.org/debian-security bullseye-security/main arm64 libglx-mesa0 arm64 20.3.5-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:86 http://deb.debian.org/debian bullseye/main arm64 libglx0 arm64 1.3.2-1 [32.0 kB]
+Get:87 http://deb.debian.org/debian bullseye/main arm64 libgl1 arm64 1.3.2-1 [91.4 kB]
+Get:88 http://deb.debian.org/debian bullseye/main arm64 libgraphite2-3 arm64 1.3.14-1 [75.6 kB]
+Get:89 http://deb.debian.org/debian bullseye/main arm64 libharfbuzz0b arm64 2.7.4-1 [1445 kB]
+Get:90 http://deb.debian.org/debian bullseye/main arm64 x11-common all 1:7.7+22 [252 kB]
+Get:91 http://deb.debian.org/debian bullseye/main arm64 libice6 arm64 2:1.0.10-1 [55.6 kB]
+Get:92 http://deb.debian.org/debian bullseye/main arm64 libevdev2 arm64 1.11.0+dfsg-1 [31.7 kB]
+Get:93 http://deb.debian.org/debian bullseye/main arm64 libmtdev1 arm64 1.1.6-1 [22.8 kB]
+Get:94 http://deb.debian.org/debian bullseye/main arm64 libgudev-1.0-0 arm64 234-1 [13.9 kB]
+Get:95 http://deb.debian.org/debian bullseye/main arm64 libwacom-common all 1.8-2 [49.7 kB]
+Get:96 http://deb.debian.org/debian bullseye/main arm64 libwacom2 arm64 1.8-2 [20.8 kB]
+Err:97 http://deb.debian.org/debian-security bullseye-security/main arm64 libinput-bin arm64 1.16.4-3+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:98 http://deb.debian.org/debian-security bullseye-security/main arm64 libinput10 arm64 1.16.4-3+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:99 http://deb.debian.org/debian bullseye/main arm64 libmd4c0 arm64 0.4.7-2 [41.1 kB]
+Err:100 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5dbus5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:101 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5network5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:102 http://deb.debian.org/debian bullseye/main arm64 libsm6 arm64 2:1.2.3-1 [34.0 kB]
+Get:103 http://deb.debian.org/debian bullseye/main arm64 libxcb-icccm4 arm64 0.4.1-1.1 [26.9 kB]
+Get:104 http://deb.debian.org/debian bullseye/main arm64 libxcb-util1 arm64 0.4.0-1+b1 [23.2 kB]
+Get:105 http://deb.debian.org/debian bullseye/main arm64 libxcb-image0 arm64 0.4.0-1+b3 [23.8 kB]
+Get:106 http://deb.debian.org/debian bullseye/main arm64 libxcb-keysyms1 arm64 0.4.0-1+b2 [16.0 kB]
+Get:107 http://deb.debian.org/debian bullseye/main arm64 libxcb-randr0 arm64 1.14-3 [113 kB]
+Get:108 http://deb.debian.org/debian bullseye/main arm64 libxcb-render0 arm64 1.14-3 [111 kB]
+Get:109 http://deb.debian.org/debian bullseye/main arm64 libxcb-render-util0 arm64 0.3.9-1+b1 [17.5 kB]
+Get:110 http://deb.debian.org/debian bullseye/main arm64 libxcb-shape0 arm64 1.14-3 [102 kB]
+Get:111 http://deb.debian.org/debian bullseye/main arm64 libxcb-xinerama0 arm64 1.14-3 [101 kB]
+Get:112 http://deb.debian.org/debian bullseye/main arm64 libxcb-xinput0 arm64 1.14-3 [125 kB]
+Get:113 http://deb.debian.org/debian bullseye/main arm64 libxcb-xkb1 arm64 1.14-3 [125 kB]
+Get:114 http://deb.debian.org/debian bullseye/main arm64 xkb-data all 2.29-2 [655 kB]
+Get:115 http://deb.debian.org/debian bullseye/main arm64 libxkbcommon0 arm64 1.0.3-2 [95.5 kB]
+Get:116 http://deb.debian.org/debian bullseye/main arm64 libxkbcommon-x11-0 arm64 1.0.3-2 [16.0 kB]
+Get:117 http://deb.debian.org/debian bullseye/main arm64 libxrender1 arm64 1:0.9.10-1 [30.4 kB]
+Err:118 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5gui5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:119 http://deb.debian.org/debian bullseye/main arm64 libqt5positioning5 arm64 5.15.2+dfsg-2 [190 kB]
+Err:120 http://deb.debian.org/debian-security bullseye-security/main arm64 libavahi-common-data arm64 0.8-5+deb11u3
+  404  Not Found [IP: 146.75.30.132 80]
+Err:121 http://deb.debian.org/debian-security bullseye-security/main arm64 libavahi-common3 arm64 0.8-5+deb11u3
+  404  Not Found [IP: 146.75.30.132 80]
+Err:122 http://deb.debian.org/debian-security bullseye-security/main arm64 libavahi-client3 arm64 0.8-5+deb11u3
+  404  Not Found [IP: 146.75.30.132 80]
+Err:123 http://deb.debian.org/debian-security bullseye-security/main arm64 libcups2 arm64 2.3.3op2-3+deb11u10
+  404  Not Found [IP: 146.75.30.132 80]
+Err:124 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5widgets5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:125 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5printsupport5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:126 http://deb.debian.org/debian bullseye/main arm64 libqt5qml5 arm64 5.15.2+dfsg-6 [1235 kB]
+Get:127 http://deb.debian.org/debian bullseye/main arm64 libqt5qmlmodels5 arm64 5.15.2+dfsg-6 [187 kB]
+Get:128 http://deb.debian.org/debian bullseye/main arm64 libqt5quick5 arm64 5.15.2+dfsg-6 [1464 kB]
+Get:129 http://deb.debian.org/debian bullseye/main arm64 libqt5sensors5 arm64 5.15.2-2 [108 kB]
+Get:130 http://deb.debian.org/debian bullseye/main arm64 libqt5webchannel5 arm64 5.15.2-2 [55.4 kB]
+Err:131 http://deb.debian.org/debian-security bullseye-security/main arm64 libsqlite3-0 arm64 3.34.1-3+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:132 http://deb.debian.org/debian bullseye/main arm64 libwebp6 arm64 0.6.1-2.1+deb11u2 [244 kB]
+Get:133 http://deb.debian.org/debian bullseye/main arm64 libwoff1 arm64 1.0.2-1+b1 [39.2 kB]
+Err:134 http://deb.debian.org/debian-security bullseye-security/main arm64 libxslt1.1 arm64 1.1.34-4+deb11u3
+  404  Not Found [IP: 146.75.30.132 80]
+Get:135 http://deb.debian.org/debian bullseye/main arm64 libqt5webkit5 arm64 5.212.0~alpha4-11 [10.2 MB]
+Err:136 http://deb.debian.org/debian-security bullseye-security/main arm64 libpython3.9-minimal arm64 3.9.2-1+deb11u7
+  404  Not Found [IP: 146.75.30.132 80]
+Err:137 http://deb.debian.org/debian-security bullseye-security/main arm64 python3.9-minimal arm64 3.9.2-1+deb11u7
+  404  Not Found [IP: 146.75.30.132 80]
+Get:138 http://deb.debian.org/debian bullseye/main arm64 python3-minimal arm64 3.9.2-3 [38.2 kB]
+Get:139 http://deb.debian.org/debian bullseye/main arm64 media-types all 4.0.0 [30.3 kB]
+Get:140 http://deb.debian.org/debian bullseye/main arm64 libmpdec3 arm64 2.5.1-1 [84.4 kB]
+Get:141 http://deb.debian.org/debian bullseye/main arm64 libncursesw6 arm64 6.2+20201114-2+deb11u2 [121 kB]
+Get:142 http://deb.debian.org/debian bullseye/main arm64 readline-common all 8.1-1 [73.7 kB]
+Get:143 http://deb.debian.org/debian bullseye/main arm64 libreadline8 arm64 8.1-1 [160 kB]
+Err:144 http://deb.debian.org/debian-security bullseye-security/main arm64 libpython3.9-stdlib arm64 3.9.2-1+deb11u7
+  404  Not Found [IP: 146.75.30.132 80]
+Err:145 http://deb.debian.org/debian-security bullseye-security/main arm64 python3.9 arm64 3.9.2-1+deb11u7
+  404  Not Found [IP: 146.75.30.132 80]
+Get:146 http://deb.debian.org/debian bullseye/main arm64 libpython3-stdlib arm64 3.9.2-3 [21.4 kB]
+Get:147 http://deb.debian.org/debian bullseye/main arm64 python3 arm64 3.9.2-3 [37.9 kB]
+Get:148 http://deb.debian.org/debian bullseye/main arm64 libncurses6 arm64 6.2+20201114-2+deb11u2 [93.1 kB]
+Get:149 http://deb.debian.org/debian bullseye/main arm64 libprocps8 arm64 2:3.3.17-5 [61.9 kB]
+Get:150 http://deb.debian.org/debian bullseye/main arm64 procps arm64 2:3.3.17-5 [497 kB]
+Get:151 http://deb.debian.org/debian bullseye/main arm64 bzip2 arm64 1.0.8-4 [48.4 kB]
+Err:152 http://deb.debian.org/debian-security bullseye-security/main arm64 openssl arm64 1.1.1w-0+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:153 http://deb.debian.org/debian-security bullseye-security/main arm64 ca-certificates all 20250419~deb12u1~deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:154 http://deb.debian.org/debian-security bullseye-security/main arm64 libpam-systemd arm64 247.3-7+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:155 http://deb.debian.org/debian-security bullseye-security/main arm64 xz-utils arm64 5.2.5-2.1~deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:156 http://deb.debian.org/debian bullseye/main arm64 binutils-common arm64 2.35.2-2 [2220 kB]
+Get:157 http://deb.debian.org/debian bullseye/main arm64 libbinutils arm64 2.35.2-2 [599 kB]
+Get:158 http://deb.debian.org/debian bullseye/main arm64 libctf-nobfd0 arm64 2.35.2-2 [108 kB]
+Get:159 http://deb.debian.org/debian bullseye/main arm64 libctf0 arm64 2.35.2-2 [51.0 kB]
+Get:160 http://deb.debian.org/debian bullseye/main arm64 binutils-aarch64-linux-gnu arm64 2.35.2-2 [2472 kB]
+Get:161 http://deb.debian.org/debian bullseye/main arm64 binutils arm64 2.35.2-2 [61.2 kB]
+Err:162 http://deb.debian.org/debian-security bullseye-security/main arm64 libc-dev-bin arm64 2.31-13+deb11u14
+  404  Not Found [IP: 146.75.30.132 80]
+Err:163 http://deb.debian.org/debian-security bullseye-security/main arm64 linux-libc-dev arm64 5.10.262-1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:164 http://deb.debian.org/debian bullseye/main arm64 libcrypt-dev arm64 1:4.4.18-4 [108 kB]
+Get:165 http://deb.debian.org/debian bullseye/main arm64 libtirpc-dev arm64 1.3.1-1+deb11u1 [193 kB]
+Get:166 http://deb.debian.org/debian bullseye/main arm64 libnsl-dev arm64 1.3.0-2 [66.1 kB]
+Err:167 http://deb.debian.org/debian-security bullseye-security/main arm64 libc6-dev arm64 2.31-13+deb11u14
+  404  Not Found [IP: 146.75.30.132 80]
+Get:168 http://deb.debian.org/debian bullseye/main arm64 libisl23 arm64 0.23-1 [590 kB]
+Get:169 http://deb.debian.org/debian bullseye/main arm64 libmpfr6 arm64 4.1.0-3 [829 kB]
+Get:170 http://deb.debian.org/debian bullseye/main arm64 libmpc3 arm64 1.2.0-1 [43.2 kB]
+Get:171 http://deb.debian.org/debian bullseye/main arm64 cpp-10 arm64 10.2.1-6 [7756 kB]
+Get:172 http://deb.debian.org/debian bullseye/main arm64 cpp arm64 4:10.2.1-1 [19.7 kB]
+Get:173 http://deb.debian.org/debian bullseye/main arm64 libcc1-0 arm64 10.2.1-6 [45.1 kB]
+Get:174 http://deb.debian.org/debian bullseye/main arm64 libgomp1 arm64 10.2.1-6 [91.6 kB]
+Get:175 http://deb.debian.org/debian bullseye/main arm64 libitm1 arm64 10.2.1-6 [23.8 kB]
+Get:176 http://deb.debian.org/debian bullseye/main arm64 libatomic1 arm64 10.2.1-6 [9468 B]
+Get:177 http://deb.debian.org/debian bullseye/main arm64 libasan6 arm64 10.2.1-6 [2002 kB]
+Get:178 http://deb.debian.org/debian bullseye/main arm64 liblsan0 arm64 10.2.1-6 [794 kB]
+Get:179 http://deb.debian.org/debian bullseye/main arm64 libtsan0 arm64 10.2.1-6 [1957 kB]
+Get:180 http://deb.debian.org/debian bullseye/main arm64 libubsan1 arm64 10.2.1-6 [759 kB]
+Get:181 http://deb.debian.org/debian bullseye/main arm64 libgcc-10-dev arm64 10.2.1-6 [876 kB]
+Get:182 http://deb.debian.org/debian bullseye/main arm64 gcc-10 arm64 10.2.1-6 [15.4 MB]
+Get:183 http://deb.debian.org/debian bullseye/main arm64 gcc arm64 4:10.2.1-1 [5208 B]
+Get:184 http://deb.debian.org/debian bullseye/main arm64 libstdc++-10-dev arm64 10.2.1-6 [1704 kB]
+Get:185 http://deb.debian.org/debian bullseye/main arm64 g++-10 arm64 10.2.1-6 [8557 kB]
+Get:186 http://deb.debian.org/debian bullseye/main arm64 g++ arm64 4:10.2.1-1 [1628 B]
+Get:187 http://deb.debian.org/debian bullseye/main arm64 make arm64 4.3-4.1 [391 kB]
+Err:188 http://deb.debian.org/debian-security bullseye-security/main arm64 libdpkg-perl all 1.20.14
+  404  Not Found [IP: 146.75.30.132 80]
+Get:189 http://deb.debian.org/debian bullseye/main arm64 patch arm64 2.7.6-7 [121 kB]
+Err:190 http://deb.debian.org/debian-security bullseye-security/main arm64 dpkg-dev all 1.20.14
+  404  Not Found [IP: 146.75.30.132 80]
+Get:191 http://deb.debian.org/debian bullseye/main arm64 build-essential arm64 12.9 [7704 B]
+Get:192 http://deb.debian.org/debian bullseye/main arm64 cmake-data all 3.18.4-2+deb11u1 [1725 kB]
+Err:193 http://deb.debian.org/debian-security bullseye-security/main arm64 libarchive13 arm64 3.4.3-2+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Get:194 http://deb.debian.org/debian bullseye/main arm64 libsasl2-modules-db arm64 2.1.27+dfsg-2.1+deb11u1 [69.4 kB]
+Get:195 http://deb.debian.org/debian bullseye/main arm64 libsasl2-2 arm64 2.1.27+dfsg-2.1+deb11u1 [105 kB]
+Get:196 http://deb.debian.org/debian bullseye/main arm64 libldap-2.4-2 arm64 2.4.57+dfsg-3+deb11u1 [222 kB]
+Err:197 http://deb.debian.org/debian-security bullseye-security/main arm64 libnghttp2-14 arm64 1.43.0-1+deb11u3
+  404  Not Found [IP: 146.75.30.132 80]
+Get:198 http://deb.debian.org/debian bullseye/main arm64 libpsl5 arm64 0.21.0-1.2 [57.1 kB]
+Get:199 http://deb.debian.org/debian bullseye/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b2 [59.4 kB]
+Get:200 http://deb.debian.org/debian bullseye/main arm64 libssh2-1 arm64 1.9.0-2+deb11u1 [150 kB]
+Err:201 http://deb.debian.org/debian-security bullseye-security/main arm64 libcurl4 arm64 7.74.0-1.3+deb11u16
+  404  Not Found [IP: 146.75.30.132 80]
+Get:202 http://deb.debian.org/debian bullseye/main arm64 libjsoncpp24 arm64 1.9.4-4 [72.5 kB]
+Get:203 http://deb.debian.org/debian bullseye/main arm64 librhash0 arm64 1.4.1-2 [127 kB]
+Get:204 http://deb.debian.org/debian bullseye/main arm64 libuv1 arm64 1.40.0-2+deb11u1 [126 kB]
+Get:205 http://deb.debian.org/debian bullseye/main arm64 cmake arm64 3.18.4-2+deb11u1 [3673 kB]
+Err:206 http://deb.debian.org/debian-security bullseye-security/main arm64 curl arm64 7.74.0-1.3+deb11u16
+  404  Not Found [IP: 146.75.30.132 80]
+Get:207 http://deb.debian.org/debian bullseye/main arm64 dbus-user-session arm64 1.12.28-0+deb11u1 [100 kB]
+Get:208 http://deb.debian.org/debian bullseye/main arm64 libdconf1 arm64 0.38.0-2 [42.2 kB]
+Get:209 http://deb.debian.org/debian bullseye/main arm64 dconf-service arm64 0.38.0-2 [35.7 kB]
+Get:210 http://deb.debian.org/debian bullseye/main arm64 dconf-gsettings-backend arm64 0.38.0-2 [29.5 kB]
+Err:211 http://deb.debian.org/debian-security bullseye-security/main arm64 libcurl3-gnutls arm64 7.74.0-1.3+deb11u16
+  404  Not Found [IP: 146.75.30.132 80]
+Get:212 http://deb.debian.org/debian bullseye/main arm64 liberror-perl all 0.17029-1 [31.0 kB]
+Err:213 http://deb.debian.org/debian-security bullseye-security/main arm64 git-man all 1:2.30.2-1+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Err:214 http://deb.debian.org/debian-security bullseye-security/main arm64 git arm64 1:2.30.2-1+deb11u5
+  404  Not Found [IP: 146.75.30.132 80]
+Err:215 http://deb.debian.org/debian-security bullseye-security/main arm64 libasound2-data all 1.2.4-1.1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Err:216 http://deb.debian.org/debian-security bullseye-security/main arm64 libasound2 arm64 1.2.4-1.1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:217 http://deb.debian.org/debian bullseye/main arm64 libasyncns0 arm64 0.8-6+b2 [12.5 kB]
+Get:218 http://deb.debian.org/debian bullseye/main arm64 uuid-dev arm64 2.36.1-8+deb11u2 [99.6 kB]
+Get:219 http://deb.debian.org/debian bullseye/main arm64 libblkid-dev arm64 2.36.1-8+deb11u2 [229 kB]
+Get:220 http://deb.debian.org/debian bullseye/main arm64 libclang1-11 arm64 1:11.0.1-2 [4553 kB]
+Err:221 http://deb.debian.org/debian-security bullseye-security/main arm64 libcupsimage2 arm64 2.3.3op2-3+deb11u10
+  404  Not Found [IP: 146.75.30.132 80]
+Get:222 http://deb.debian.org/debian bullseye/main arm64 libjpeg62-turbo-dev arm64 1:2.0.6-4 [255 kB]
+Get:223 http://deb.debian.org/debian bullseye/main arm64 libjpeg-dev arm64 1:2.0.6-4 [67.8 kB]
+Get:224 http://deb.debian.org/debian bullseye/main arm64 zlib1g-dev arm64 1:1.2.11.dfsg-2+deb11u2 [189 kB]
+Err:225 http://deb.debian.org/debian-security bullseye-security/main arm64 libpng-dev arm64 1.6.37-3+deb11u4
+  404  Not Found [IP: 146.75.30.132 80]
+Get:226 http://deb.debian.org/debian bullseye/main arm64 libjbig0 arm64 2.1-3.1+b2 [27.8 kB]
+Get:227 http://deb.debian.org/debian bullseye/main arm64 libjbig-dev arm64 2.1-3.1+b2 [28.3 kB]
+Err:228 http://deb.debian.org/debian-security bullseye-security/main arm64 liblzma-dev arm64 5.2.5-2.1~deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:229 http://deb.debian.org/debian bullseye/main arm64 libdeflate0 arm64 1.7-1 [47.7 kB]
+Err:230 http://deb.debian.org/debian-security bullseye-security/main arm64 libtiff5 arm64 4.2.0-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:231 http://deb.debian.org/debian-security bullseye-security/main arm64 libtiffxx5 arm64 4.2.0-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Get:232 http://deb.debian.org/debian bullseye/main arm64 libdeflate-dev arm64 1.7-1 [44.5 kB]
+Err:233 http://deb.debian.org/debian-security bullseye-security/main arm64 libtiff-dev arm64 4.2.0-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:234 http://deb.debian.org/debian-security bullseye-security/main arm64 libcupsimage2-dev arm64 2.3.3op2-3+deb11u10
+  404  Not Found [IP: 146.75.30.132 80]
+Err:235 http://deb.debian.org/debian-security bullseye-security/main arm64 libcups2-dev arm64 2.3.3op2-3+deb11u10
+  404  Not Found [IP: 146.75.30.132 80]
+Get:236 http://deb.debian.org/debian bullseye/main arm64 libdframeworkdbus2 arm64 5.2.0.29-1 [501 kB]
+Get:237 http://deb.debian.org/debian bullseye/main arm64 lshw arm64 02.18.85-0.7 [238 kB]
+Get:238 http://deb.debian.org/debian bullseye/main arm64 libgsettings-qt1 arm64 0.2-4 [18.6 kB]
+Err:239 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5xml5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:240 http://deb.debian.org/debian bullseye/main arm64 libdtkcore5 arm64 5.2.2.5-3 [230 kB]
+Get:241 http://deb.debian.org/debian bullseye/main arm64 libdtkcore-dev arm64 5.2.2.5-3 [34.0 kB]
+Get:242 http://deb.debian.org/debian bullseye/main arm64 libdtkgui5 arm64 5.2.2.4-2 [108 kB]
+Get:243 http://deb.debian.org/debian bullseye/main arm64 libdtkgui-dev arm64 5.2.2.4-2 [13.1 kB]
+Get:244 http://deb.debian.org/debian bullseye/main arm64 libogg0 arm64 1.3.4-0.1 [26.3 kB]
+Get:245 http://deb.debian.org/debian bullseye/main arm64 libflac8 arm64 1.3.3-2+deb11u2 [95.1 kB]
+Get:246 http://deb.debian.org/debian bullseye/main arm64 libopus0 arm64 1.3.1-0.1 [169 kB]
+Get:247 http://deb.debian.org/debian bullseye/main arm64 libvorbis0a arm64 1.3.7-1 [86.2 kB]
+Get:248 http://deb.debian.org/debian bullseye/main arm64 libvorbisenc2 arm64 1.3.7-1 [80.4 kB]
+Err:249 http://deb.debian.org/debian-security bullseye-security/main arm64 libsndfile1 arm64 1.0.31-2+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:250 http://deb.debian.org/debian bullseye/main arm64 libwrap0 arm64 7.6.q-31 [58.7 kB]
+Get:251 http://deb.debian.org/debian bullseye/main arm64 libpulse0 arm64 14.2-2 [244 kB]
+Get:252 http://deb.debian.org/debian bullseye/main arm64 libqt5multimedia5 arm64 5.15.2-3 [276 kB]
+Get:253 http://deb.debian.org/debian bullseye/main arm64 libqt5x11extras5 arm64 5.15.2-2 [12.5 kB]
+Get:254 http://deb.debian.org/debian bullseye/main arm64 libstartup-notification0 arm64 0.12-6+b1 [22.5 kB]
+Get:255 http://deb.debian.org/debian bullseye/main arm64 libxi6 arm64 2:1.7.10-1 [81.7 kB]
+Get:256 http://deb.debian.org/debian bullseye/main arm64 libdtkwidget5 arm64 5.2.2.10-1 [622 kB]
+Get:257 http://deb.debian.org/debian bullseye/main arm64 xorg-sgml-doctools all 1:1.11-1.1 [22.1 kB]
+Get:258 http://deb.debian.org/debian bullseye/main arm64 x11proto-dev all 2020.1-1 [594 kB]
+Get:259 http://deb.debian.org/debian bullseye/main arm64 libxau-dev arm64 1:1.0.9-1 [23.2 kB]
+Get:260 http://deb.debian.org/debian bullseye/main arm64 libxdmcp-dev arm64 1:1.1.2-3 [41.2 kB]
+Get:261 http://deb.debian.org/debian bullseye/main arm64 xtrans-dev all 1.4.0-1 [98.7 kB]
+Get:262 http://deb.debian.org/debian bullseye/main arm64 libpthread-stubs0-dev arm64 0.4-1 [5336 B]
+Get:263 http://deb.debian.org/debian bullseye/main arm64 libxcb1-dev arm64 1.14-3 [177 kB]
+Get:264 http://deb.debian.org/debian bullseye/main arm64 libx11-dev arm64 2:1.7.2-1+deb11u2 [831 kB]
+Get:265 http://deb.debian.org/debian bullseye/main arm64 libglx-dev arm64 1.3.2-1 [16.3 kB]
+Get:266 http://deb.debian.org/debian bullseye/main arm64 libgl-dev arm64 1.3.2-1 [100 kB]
+Get:267 http://deb.debian.org/debian bullseye/main arm64 libegl-dev arm64 1.3.2-1 [19.6 kB]
+Get:268 http://deb.debian.org/debian bullseye/main arm64 libglu1-mesa arm64 9.0.1-1 [146 kB]
+Get:269 http://deb.debian.org/debian bullseye/main arm64 libglu1-mesa-dev arm64 9.0.1-1 [186 kB]
+Err:270 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5concurrent5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:271 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5sql5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:272 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5test5 arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:273 http://deb.debian.org/debian bullseye/main arm64 libvulkan-dev arm64 1.2.162.0-1 [586 kB]
+Get:274 http://deb.debian.org/debian bullseye/main arm64 x11proto-xext-dev all 2020.1-1 [3404 B]
+Get:275 http://deb.debian.org/debian bullseye/main arm64 libxext-dev arm64 2:1.3.3-1.1 [107 kB]
+Err:276 http://deb.debian.org/debian-security bullseye-security/main arm64 qt5-qmake-bin arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:277 http://deb.debian.org/debian bullseye/main arm64 qtchooser arm64 66-2 [24.9 kB]
+Err:278 http://deb.debian.org/debian-security bullseye-security/main arm64 qt5-qmake arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:279 http://deb.debian.org/debian-security bullseye-security/main arm64 qtbase5-dev-tools arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Err:280 http://deb.debian.org/debian-security bullseye-security/main arm64 qtbase5-dev arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:281 http://deb.debian.org/debian bullseye/main arm64 libqt5x11extras5-dev arm64 5.15.2-2 [12.0 kB]
+Get:282 http://deb.debian.org/debian bullseye/main arm64 libffi-dev arm64 3.3-6 [53.2 kB]
+Err:283 http://deb.debian.org/debian-security bullseye-security/main arm64 libglib2.0-data all 2.66.8-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:284 http://deb.debian.org/debian-security bullseye-security/main arm64 libglib2.0-bin arm64 2.66.8-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Get:285 http://deb.debian.org/debian bullseye/main arm64 python3-lib2to3 all 3.9.2-1 [77.8 kB]
+Get:286 http://deb.debian.org/debian bullseye/main arm64 python3-distutils all 3.9.2-1 [143 kB]
+Err:287 http://deb.debian.org/debian-security bullseye-security/main arm64 libglib2.0-dev-bin arm64 2.66.8-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Err:288 http://deb.debian.org/debian-security bullseye-security/main arm64 libsepol1-dev arm64 3.1-1+deb11u1
+  404  Not Found [IP: 146.75.30.132 80]
+Get:289 http://deb.debian.org/debian bullseye/main arm64 libpcre2-32-0 arm64 10.36-2+deb11u1 [194 kB]
+Get:290 http://deb.debian.org/debian bullseye/main arm64 libpcre2-posix2 arm64 10.36-2+deb11u1 [49.1 kB]
+Get:291 http://deb.debian.org/debian bullseye/main arm64 libpcre2-dev arm64 10.36-2+deb11u1 [647 kB]
+Get:292 http://deb.debian.org/debian bullseye/main arm64 libselinux1-dev arm64 3.1-3 [171 kB]
+Get:293 http://deb.debian.org/debian bullseye/main arm64 libmount-dev arm64 2.36.1-8+deb11u2 [78.1 kB]
+Get:294 http://deb.debian.org/debian bullseye/main arm64 libpcre16-3 arm64 2:8.39-13 [236 kB]
+Get:295 http://deb.debian.org/debian bullseye/main arm64 libpcre32-3 arm64 2:8.39-13 [229 kB]
+Get:296 http://deb.debian.org/debian bullseye/main arm64 libpcrecpp0v5 arm64 2:8.39-13 [151 kB]
+Get:297 http://deb.debian.org/debian bullseye/main arm64 libpcre3-dev arm64 2:8.39-13 [579 kB]
+Get:298 http://deb.debian.org/debian bullseye/main arm64 pkg-config arm64 0.29.2-1 [63.6 kB]
+Err:299 http://deb.debian.org/debian-security bullseye-security/main arm64 libglib2.0-dev arm64 2.66.8-1+deb11u8
+  404  Not Found [IP: 146.75.30.132 80]
+Get:300 http://deb.debian.org/debian bullseye/main arm64 libwayland-cursor0 arm64 1.18.0-2~exp1.1 [14.4 kB]
+Get:301 http://deb.debian.org/debian bullseye/main arm64 libwayland-egl1 arm64 1.18.0-2~exp1.1 [8412 B]
+Err:302 http://deb.debian.org/debian-security bullseye-security/main arm64 libgstreamer-gl1.0-0 arm64 1.18.4-2+deb11u4
+  404  Not Found [IP: 146.75.30.132 80]
+Get:303 http://deb.debian.org/debian bullseye/main arm64 libqt5multimediawidgets5 arm64 5.15.2-3 [43.0 kB]
+Get:304 http://deb.debian.org/debian bullseye/main arm64 libqt5multimediagsttools5 arm64 5.15.2-3 [96.1 kB]
+Get:305 http://deb.debian.org/debian bullseye/main arm64 libqt5multimediaquick5 arm64 5.15.2-3 [44.5 kB]
+Get:306 http://deb.debian.org/debian bullseye/main arm64 qtmultimedia5-dev arm64 5.15.2-3 [50.2 kB]
+Get:307 http://deb.debian.org/debian bullseye/main arm64 libdtkwidget-dev arm64 5.2.2.10-1 [65.2 kB]
+Get:308 http://deb.debian.org/debian bullseye/main arm64 libqt5designer5 arm64 5.15.2-5 [2663 kB]
+Get:309 http://deb.debian.org/debian bullseye/main arm64 libqt5designercomponents5 arm64 5.15.2-5 [686 kB]
+Get:310 http://deb.debian.org/debian bullseye/main arm64 libqt5help5 arm64 5.15.2-5 [137 kB]
+Get:311 http://deb.debian.org/debian bullseye/main arm64 libqt5quickwidgets5 arm64 5.15.2+dfsg-6 [48.0 kB]
+Err:312 http://deb.debian.org/debian-security bullseye-security/main arm64 libqt5sql5-sqlite arm64 5.15.2+dfsg-9+deb11u2
+  404  Not Found [IP: 146.75.30.132 80]
+Get:313 http://deb.debian.org/debian bullseye/main arm64 libxcb-util-dev arm64 0.4.0-1+b1 [24.8 kB]
+Get:314 http://deb.debian.org/debian bullseye/main arm64 qdoc-qt5 arm64 5.15.2-5 [527 kB]
+Get:315 http://deb.debian.org/debian bullseye/main arm64 qhelpgenerator-qt5 arm64 5.15.2-5 [55.9 kB]
+Get:316 http://deb.debian.org/debian bullseye/main arm64 qt5-assistant arm64 5.15.2-5 [338 kB]
+Get:317 http://deb.debian.org/debian bullseye/main arm64 qtattributionsscanner-qt5 arm64 5.15.2-5 [34.0 kB]
+Get:318 http://deb.debian.org/debian bullseye/main arm64 qttools5-dev-tools arm64 5.15.2-5 [930 kB]
+Fetched 125 MB in 10s (12.9 MB/s)
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libc/libcap2/libcap2_2.44-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/s/systemd/systemd_247.3-7%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/s/systemd/systemd-sysv_247.3-7%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/e/expat/libexpat1_2.2.10-2%2bdeb11u7_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/perl/perl-modules-5.32_5.32.1-4%2bdeb11u5_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/perl/libperl5.32_5.32.1-4%2bdeb11u5_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/perl/perl_5.32.1-4%2bdeb11u5_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glib2.0/libglib2.0-0_2.66.8-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libc/libcap2/libcap2-bin_2.44-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/gstreamer1.0/libgstreamer1.0-0_1.18.4-2.1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/gst-plugins-base1.0/libgstreamer-plugins-base1.0-0_1.18.4-2%2bdeb11u4_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/i/icu/libicu67_67.1-7%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libp/libpng1.6/libpng16-16_1.6.37-3%2bdeb11u4_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libx/libxml2/libxml2_2.9.10%2bdfsg-6.7%2bdeb11u10_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5core5a_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/f/freetype/libfreetype6_2.10.4%2bdfsg-1%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/u/ucf/ucf_3.0043%2bdeb11u2_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/m/mesa/libgbm1_20.3.5-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/m/mesa/libglapi-mesa_20.3.5-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/m/mesa/libegl-mesa0_20.3.5-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/m/mesa/libgl1-mesa-dri_20.3.5-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/m/mesa/libglx-mesa0_20.3.5-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libi/libinput/libinput-bin_1.16.4-3%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libi/libinput/libinput10_1.16.4-3%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5dbus5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5network5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5gui5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/a/avahi/libavahi-common-data_0.8-5%2bdeb11u3_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/a/avahi/libavahi-common3_0.8-5%2bdeb11u3_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/a/avahi/libavahi-client3_0.8-5%2bdeb11u3_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/cups/libcups2_2.3.3op2-3%2bdeb11u10_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5widgets5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5printsupport5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/s/sqlite3/libsqlite3-0_3.34.1-3%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libx/libxslt/libxslt1.1_1.1.34-4%2bdeb11u3_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/python3.9/libpython3.9-minimal_3.9.2-1%2bdeb11u7_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/python3.9/python3.9-minimal_3.9.2-1%2bdeb11u7_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/python3.9/libpython3.9-stdlib_3.9.2-1%2bdeb11u7_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/p/python3.9/python3.9_3.9.2-1%2bdeb11u7_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/o/openssl/openssl_1.1.1w-0%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/ca-certificates/ca-certificates_20250419%7edeb12u1%7edeb11u1_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/s/systemd/libpam-systemd_247.3-7%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/x/xz-utils/xz-utils_5.2.5-2.1%7edeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glibc/libc-dev-bin_2.31-13%2bdeb11u14_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/l/linux/linux-libc-dev_5.10.262-1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glibc/libc6-dev_2.31-13%2bdeb11u14_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/d/dpkg/libdpkg-perl_1.20.14_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/d/dpkg/dpkg-dev_1.20.14_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/liba/libarchive/libarchive13_3.4.3-2%2bdeb11u5_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/n/nghttp2/libnghttp2-14_1.43.0-1%2bdeb11u3_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/curl/libcurl4_7.74.0-1.3%2bdeb11u16_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/curl/curl_7.74.0-1.3%2bdeb11u16_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/curl/libcurl3-gnutls_7.74.0-1.3%2bdeb11u16_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/git/git-man_2.30.2-1%2bdeb11u5_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/git/git_2.30.2-1%2bdeb11u5_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/a/alsa-lib/libasound2-data_1.2.4-1.1%2bdeb11u1_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/a/alsa-lib/libasound2_1.2.4-1.1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/cups/libcupsimage2_2.3.3op2-3%2bdeb11u10_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libp/libpng1.6/libpng-dev_1.6.37-3%2bdeb11u4_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/x/xz-utils/liblzma-dev_5.2.5-2.1%7edeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/t/tiff/libtiff5_4.2.0-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/t/tiff/libtiffxx5_4.2.0-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/t/tiff/libtiff-dev_4.2.0-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/cups/libcupsimage2-dev_2.3.3op2-3%2bdeb11u10_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/c/cups/libcups2-dev_2.3.3op2-3%2bdeb11u10_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5xml5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libs/libsndfile/libsndfile1_1.0.31-2%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5concurrent5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5sql5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5test5_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/qt5-qmake-bin_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/qt5-qmake_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/qtbase5-dev-tools_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/qtbase5-dev_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glib2.0/libglib2.0-data_2.66.8-1%2bdeb11u8_all.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glib2.0/libglib2.0-bin_2.66.8-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glib2.0/libglib2.0-dev-bin_2.66.8-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/libs/libsepol/libsepol1-dev_3.1-1%2bdeb11u1_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/glib2.0/libglib2.0-dev_2.66.8-1%2bdeb11u8_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/g/gst-plugins-base1.0/libgstreamer-gl1.0-0_1.18.4-2%2bdeb11u4_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Failed to fetch http://deb.debian.org/debian-security/pool/updates/main/q/qtbase-opensource-src/libqt5sql5-sqlite_5.15.2%2bdfsg-9%2bdeb11u2_arm64.deb  404  Not Found [IP: 146.75.30.132 80]
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
