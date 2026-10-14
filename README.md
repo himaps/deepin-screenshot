@@ -75,7 +75,7 @@ Release 提供两个 deb 变体，按需二选一（文件名格式：`deepin-sc
 在 bullseye 容器 + GitHub 原生 arm64 runner 上构建 deepin-screenshot 时遇到的问题与解决方法，供后续同类型 deepin 产品参考：
 
 1. **glibc 基线必须匹配目标机**。最初用 bookworm（glibc 2.36）容器构建，产物引用 GLIBC_2.34+ 符号，在麒麟 V20（Ubuntu 20.04 基座，glibc 2.31-0kylin）上即使装齐依赖也起不来。解决：容器换成 bullseye（glibc 2.31，Qt 5.15 + DTK 5.2 齐全），构建产物向下兼容一切 ≥ 2.31 的系统。选容器先问"目标机 glibc 多少"。
-2. **EOL 基线的 apt 源要留意时效**。截至 2026-10，bullseye 仍在 deb.debian.org 上正常服务，直接用镜像默认源即可。日后它移入 archive.debian.org 时，需把 apt 源改指 archive 并关闭 `Acquire::Check-Valid-Until`；但 archive 对云厂商 runner IP 限流严重（本次 arm64 构建连续在 apt 步骤失败就是这个原因），届时优先找一个仍在同步 debian-archive 的镜像站。
+2. **EOL 基线的 apt 源处于"半归档"状态**。bullseye 过 LTS 后，deb.debian.org 仍提供 `bullseye-security` 的索引（`apt-get update` 正常），但 pool 里的 .deb 已被移走（安装时成片 404）。解决：只把 security 套件指到 `archive.debian.org`，main 保持快速的 deb.debian.org；不要把整个源都切到 archive——它对云厂商 runner IP 限流严重，会造成更难排查的间歇性失败。
 3. **包名随 Debian 版本变化**。如 `libxcb-util0-dev`（bullseye）→ `libxcb-util-dev`（bookworm），安装步骤按 `apt-cache show` 探测兼容两种命名。
 4. **deepin 专用库已从 Debian 移除**。`dscreenwindowsutil.h`（`DScreenWindowsUtil`，多屏窗口选择）来自 dtkwm，bullseye 之后的 Debian 已无此包；且它的 qmake 构建依赖 dtkcore 的 `dtk_build.prf` 等 feature 文件，Debian 的 `libdtkcore-dev` 同样不提供（deepin 后期已转 cmake）。解决：CI 里用 `g++` + `moc` 直接编译 dtkwm 2.0.12（源码在 `martyr-deepin/dtkwm`，只有 2 个 cpp），产出的 `libdtkwm.so.2` 打进 deb 的 `/usr/lib/<三元组>/deepin-screenshot/` 私有目录，主程序设置 `INSTALL_RPATH` 指向该目录。CMakeLists 在 `find_package(DtkWm)` 失败时回退到 `find_path`/`find_library`。
 5. **Qt 5.15 头文件包含更严格**。`QPainterPath` 不再被其他 Qt 头间接带入，使用处需显式 `#include <QPainterPath>`。
