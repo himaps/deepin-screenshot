@@ -42,6 +42,17 @@ jobs:
       PKG_CONFIG_PATH: /usr/lib/${{ matrix.multiarch }}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 
     steps:
+      - name: Point bullseye-security at the Debian archive
+        run: |
+          set -e
+          # bullseye has left regular security support: deb.debian.org still
+          # serves the bullseye-security package index, but the .debs in its
+          # pool are gone (404). Keep main on the fast deb.debian.org mirror
+          # and point only the security suite at archive.debian.org.
+          sed -i 's|http://security.debian.org|http://archive.debian.org|g; s|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
+          echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
+          cat /etc/apt/sources.list
+
       - name: Install build dependencies
         run: |
           set -o pipefail
@@ -60,10 +71,19 @@ jobs:
             # libxcb-util-dev was renamed from libxcb-util0-dev
             XCBUTIL=libxcb-util0-dev
             apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
-            apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
-              build-essential cmake pkg-config git curl ca-certificates \
-              qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
-              "$XCBUTIL" libx11-dev libxext-dev
+            for attempt in 1 2 3; do
+              if apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+                build-essential cmake pkg-config git curl ca-certificates \
+                qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
+                "$XCBUTIL" libx11-dev libxext-dev; then
+                break
+              fi
+              echo "apt-get install failed (attempt $attempt), retrying in 30s" >&2
+              if [ "$attempt" = "3" ]; then
+                exit 1
+              fi
+              sleep 30
+            done
           } 2>&1 | tee build.log
 
       - name: Build dtkwm from source
