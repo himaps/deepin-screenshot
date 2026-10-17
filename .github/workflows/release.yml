@@ -49,10 +49,15 @@ jobs:
           set -o pipefail
           {
             set -e
-            # focal suites may look stale to apt once regular support ends
-            echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
+            export DEBIAN_FRONTEND=noninteractive
+            # fail fast on stalled connections instead of hanging for hours,
+            # and use the Azure Ubuntu mirror (runners are Azure-hosted)
+            echo 'Acquire::http:Timeout "30";' > /etc/apt/apt.conf.d/99ci-settings
+            echo 'Acquire::https:Timeout "30";' >> /etc/apt/apt.conf.d/99ci-settings
+            echo 'Acquire::Check-Valid-Until "false";' >> /etc/apt/apt.conf.d/99ci-settings
+            sed -i 's|http://archive.ubuntu.com|http://azure.archive.ubuntu.com|g; s|http://security.ubuntu.com|http://azure.archive.ubuntu.com|g' /etc/apt/sources.list
             for attempt in 1 2 3 4; do
-              if apt-get update; then
+              if timeout 600 apt-get update; then
                 break
               fi
               echo "apt-get update failed (attempt $attempt), retrying in 20s" >&2
@@ -65,7 +70,7 @@ jobs:
             XCBUTIL=libxcb-util0-dev
             apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
             for attempt in 1 2 3; do
-              if apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+              if timeout 1200 apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
                 build-essential cmake pkg-config git curl ca-certificates xz-utils \
                 qtbase5-dev qtbase5-private-dev qttools5-dev-tools \
                 libqt5x11extras5-dev libqt5svg5-dev qtmultimedia5-dev \
