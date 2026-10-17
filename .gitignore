@@ -27,3 +27,7 @@ include*/
 *.autosave
 .vscode
 *.user
+.mimosa/
+cl.json
+lf.json
+offline-*.deb
