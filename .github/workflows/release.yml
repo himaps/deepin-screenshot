@@ -31,33 +31,26 @@ jobs:
             osarch: linux-amd64
     # Native runners produce native builds, no cross compilation needed
     runs-on: ${{ matrix.runner }}
-    # Build inside Debian bullseye: glibc 2.31 matches the Kylin V20 target
-    # (Ubuntu 20.04 base, glibc 2.31-0kylin) and still runs on anything newer
-    # (deepin 20/23, Debian 12). For even older UOS 20 (glibc 2.28) prefer an
-    # on-device build.
-    container: debian:bullseye-slim
+    # Build inside Ubuntu 20.04 (focal): the SAME distro base as the Kylin V20
+    # target. Qt 5.12.8 and glibc 2.31 therefore match the target machine, so
+    # the offline bundle never needs to upgrade an installed library - the
+    # installer only ever adds packages that are missing. Earlier attempts
+    # (bookworm glibc 2.36 / bullseye glibc 2.31 + Qt 5.15) required upgrading
+    # systemd and other core libraries on the target, which crashed the OS.
+    container: ubuntu:20.04
     env:
-      # The bookworm-slim container's pkg-config does not search the multiarch
-      # pkgconfig directory on its own
+      # The debian/ubuntu-slim container's pkg-config does not search the
+      # multiarch pkgconfig directory on its own
       PKG_CONFIG_PATH: /usr/lib/${{ matrix.multiarch }}/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig
 
     steps:
-      - name: Point bullseye-security at the Debian archive
-        run: |
-          set -e
-          # bullseye has left regular security support: deb.debian.org still
-          # serves the bullseye-security package index, but the .debs in its
-          # pool are gone (404). Keep main on the fast deb.debian.org mirror
-          # and point only the security suite at archive.debian.org.
-          sed -i 's|http://security.debian.org|http://archive.debian.org|g; s|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
-          echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
-          cat /etc/apt/sources.list
-
       - name: Install build dependencies
         run: |
           set -o pipefail
           {
             set -e
+            # focal suites may look stale to apt once regular support ends
+            echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-valid-until
             for attempt in 1 2 3 4; do
               if apt-get update; then
                 break
@@ -73,9 +66,13 @@ jobs:
             apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
             for attempt in 1 2 3; do
               if apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
-                build-essential cmake pkg-config git curl ca-certificates \
-                qtbase5-dev qttools5-dev-tools libdtkwidget-dev \
-                "$XCBUTIL" libx11-dev libxext-dev; then
+                build-essential cmake pkg-config git curl ca-certificates xz-utils \
+                qtbase5-dev qtbase5-private-dev qttools5-dev-tools \
+                libqt5x11extras5-dev libqt5svg5-dev qtmultimedia5-dev \
+                libgsettings-qt-dev librsvg2-dev libcups2-dev libegl1-mesa-dev \
+                libfontconfig1-dev libfreetype6-dev libglib2.0-dev libmtdev-dev \
+                libpulse-dev libstartup-notification0-dev libudev-dev \
+                "$XCBUTIL" libx11-dev libxext-dev libxi-dev libxrender-dev x11proto-dev; then
                 break
               fi
               echo "apt-get install failed (attempt $attempt), retrying in 30s" >&2
@@ -86,29 +83,49 @@ jobs:
             done
           } 2>&1 | tee build.log
 
-      - name: Build dtkwm from source
+      - name: Build DTK 5.2 and dtkwm from source
         run: |
-          set -e
-          # dtkwm (DScreenWindowsUtil) is not packaged in Debian bookworm, but
-          # deepin-screenshot needs it for multi-screen window selection. It is
-          # a tiny qmake library; build it directly with g++ and moc.
-          git clone --depth 1 --branch 2.0.12 https://github.com/martyr-deepin/dtkwm.git /tmp/dtkwm
-          cd /tmp/dtkwm/src
-          PKGS="Qt5Core Qt5Gui Qt5Widgets Qt5X11Extras Qt5DBus dtkcore xcb xcb-util"
-          inc="$(pkg-config --cflags $PKGS)"
-          libs="$(pkg-config --libs $PKGS)"
-          moc $inc dscreenwindowsutil.h -o moc_dscreenwindowsutil.cpp
-          moc $inc dwindowmanager.h -o moc_dwindowmanager.cpp
-          g++ -std=c++14 -fPIC -O2 -DLIBDTKWM_LIBRARY $inc \
-            -shared -Wl,-soname,libdtkwm.so.2 -o libdtkwm.so.2.0.12 \
-            dscreenwindowsutil.cpp dwindowmanager.cpp \
-            moc_dscreenwindowsutil.cpp moc_dwindowmanager.cpp $libs -lX11 -lXext
-          install -d /usr/include/libdtkwm /usr/lib/${{ matrix.multiarch }}
-          install -m644 dscreenwindowsutil.h dwindowmanager.h dtkwm_global.h /usr/include/libdtkwm/
-          install -m755 libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/
-          ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so
-          ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so.2
-          ldconfig
+          set -o pipefail
+          {
+            set -e
+            # focal ships no DTK. Build the exact 5.2.x sources Debian
+            # bullseye packaged: they are contemporary with this app and
+            # support Qt 5.12, so the result matches Kylin V20's Qt.
+            mkdir -p /tmp/dtk && cd /tmp/dtk
+            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkcore/dtkcore_5.2.2.5.orig.tar.gz
+            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkgui/dtkgui_5.2.2.4.orig.tar.gz
+            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkwidget/dtkwidget_5.2.2.10.orig.tar.gz
+            for t in dtkcore_5.2.2.5 dtkgui_5.2.2.4 dtkwidget_5.2.2.10; do
+              tar -xzf "${t}.orig.tar.gz"
+            done
+            for d in dtkcore-5.2.2.5 dtkgui-5.2.2.4 dtkwidget-5.2.2.10; do
+              echo "=== building $d"
+              cd "/tmp/dtk/$d"
+              qmake PREFIX=/usr
+              make -j"$(nproc)"
+              make install
+              ldconfig
+            done
+            # dtkwm (DScreenWindowsUtil, multi-screen window selection) is a
+            # separate tiny library; build it directly with g++ and moc.
+            git clone --depth 1 --branch 2.0.12 https://github.com/martyr-deepin/dtkwm.git /tmp/dtkwm
+            cd /tmp/dtkwm/src
+            PKGS="Qt5Core Qt5Gui Qt5Widgets Qt5X11Extras Qt5DBus dtkcore xcb xcb-util"
+            inc="$(pkg-config --cflags $PKGS)"
+            libs="$(pkg-config --libs $PKGS)"
+            moc $inc dscreenwindowsutil.h -o moc_dscreenwindowsutil.cpp
+            moc $inc dwindowmanager.h -o moc_dwindowmanager.cpp
+            g++ -std=c++14 -fPIC -O2 -DLIBDTKWM_LIBRARY $inc \
+              -shared -Wl,-soname,libdtkwm.so.2 -o libdtkwm.so.2.0.12 \
+              dscreenwindowsutil.cpp dwindowmanager.cpp \
+              moc_dscreenwindowsutil.cpp moc_dwindowmanager.cpp $libs -lX11 -lXext
+            install -d /usr/include/libdtkwm /usr/lib/${{ matrix.multiarch }}
+            install -m644 dscreenwindowsutil.h dwindowmanager.h dtkwm_global.h /usr/include/libdtkwm/
+            install -m755 libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/
+            ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so
+            ln -sf libdtkwm.so.2.0.12 /usr/lib/${{ matrix.multiarch }}/libdtkwm.so.2
+            ldconfig
+          } 2>&1 | tee dtkbuild.log
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -231,15 +248,21 @@ jobs:
             for f in /tmp/offline-cache/*.deb; do
               p="$(dpkg-deb -f "$f" Package)"
               [ "$(dpkg-deb -f "$f" Essential)" = "yes" ] && continue
-              # glibc must never be replaced by a bundled copy
-              [ "$p" = "libc6" ] && continue
+              # glibc and anything that owns core OS machinery must never be
+              # replaced by a bundled copy - upgrading systemd on the target
+              # crashed Kylin V20 (see README)
+              case "$p" in
+                libc6|systemd*|libsystemd*|libudev*|udev|dbus*|libpam*|login|passwd) continue ;;
+              esac
               cp "$f" "${PKGDIR}/usr/share/deepin-screenshot/deps/"
             done
             cat > "${PKGDIR}/usr/share/deepin-screenshot/install-deps.sh" <<'SH'
           #!/bin/sh
-          # Install or upgrade the runtime dependencies bundled in ./deps:
-          # packages installed at an equal or newer version are kept (the system
-          # copy is used), older or missing ones are installed from the bundle.
+          # Install the runtime dependencies bundled in ./deps that are MISSING on
+          # this system. Packages already installed are always kept at their system
+          # version - this installer never upgrades anything, so it cannot alter
+          # the running OS. Run as root after dpkg -i:
+          #   sudo /usr/share/deepin-screenshot/install-deps.sh
           set -e
           BIN=/usr/bin/deepin-screenshot
           DIR="$(cd "$(dirname "$0")" && pwd)/deps"
@@ -247,22 +270,16 @@ jobs:
           MISSING=""
           for f in *.deb; do
             pkg="$(dpkg-deb -f "$f" Package)"
-            ver="$(dpkg-deb -f "$f" Version)"
             stat="$(dpkg-query -W -f='${db:Status-Abbrev}' "$pkg" 2>/dev/null || true)"
             case "$stat" in
               ii*)
-                inst="$(dpkg-query -W -f='${Version}' "$pkg" 2>/dev/null || true)"
-                if dpkg --compare-versions "${inst:-0}" ge "$ver"; then
-                  echo "$pkg: system $inst is up to date, using it"
-                  continue
-                fi
-                echo "$pkg: system $inst is older, upgrading with $f ($ver)"
+                echo "$pkg: already installed, using the system copy"
                 ;;
               *)
-                echo "$pkg: missing, will install $f ($ver)"
+                echo "$pkg: missing, will install $f"
+                MISSING="$MISSING $f"
                 ;;
             esac
-            MISSING="$MISSING $f"
           done
           if [ -n "$MISSING" ]; then
             # single dpkg call so packages configure in dependency order
@@ -316,7 +333,9 @@ jobs:
            closure (deps/) and install-deps.sh for machines without network
            access. Libraries already present on the system are used; only
            missing ones are installed from the bundle. Never replace glibc.
-           Requires glibc >= 2.31 (Kylin V20 / Debian 11 era or newer).
+           Requires glibc >= 2.31 and Qt 5.12 era libraries (Kylin V20 /
+           Ubuntu 20.04 native; installs missing packages only, never
+           upgrades the system).
           EOF
             dpkg-deb --build --root-owner-group "${PKGDIR}" "${DEBOUT}"
           } 2>&1 | tee -a package.log
@@ -347,7 +366,7 @@ jobs:
             const arch = process.env.RUNNER_ARCH === 'ARM64' ? 'aarch64' : 'amd64';
             const stamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
             const files = [];
-            for (const n of ['build.log', 'stage.log', 'package.log']) {
+            for (const n of ['build.log', 'dtkbuild.log', 'stage.log', 'package.log']) {
               const p = path.join(ws, n);
               if (fs.existsSync(p)) files.push({ name: n.replace(/\.log$/, '') + '-' + arch + '-' + stamp + '.log', p });
             }
@@ -416,10 +435,11 @@ jobs:
             text and color annotation tools
           - Provides the com.deepin.Screenshot DBus service
 
-          Built against Qt 5.15 and DTK 5.2 (Debian bullseye) on native runners.
-          Requires glibc >= 2.31: runs on Kylin V20 (Ubuntu 20.04 base),
-          UOS/deepin desktops and anything newer. UOS 20 (glibc 2.28) and
-          other glibc 2.28 systems are not supported.
+          Built on Ubuntu 20.04 runners inside an Ubuntu 20.04 container - the
+          same base as Kylin V20 (Qt 5.12.8, glibc 2.31, matching library
+          names). The offline installer only adds packages missing on the
+          target and never upgrades an installed one, so it cannot touch
+          systemd or any other OS component.
           Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
           Install: `sudo dpkg -i deepin-screenshot-*.deb` (no strict Depends, a
           UOS/deepin desktop provides the Qt5/DTK runtime).
