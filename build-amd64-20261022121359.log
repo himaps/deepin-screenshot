@@ -1,0 +1,363 @@
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1") 
+
+process translations/deepin-screenshot.ts
+Updating 'translations/deepin-screenshot.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_af.ts
+Updating 'translations/deepin-screenshot_af.qm'...
+    Generated 6 translation(s) (6 finished and 0 unfinished)
+    Ignored 46 untranslated source text(s)
+
+process translations/deepin-screenshot_am_ET.ts
+Updating 'translations/deepin-screenshot_am_ET.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ar.ts
+Updating 'translations/deepin-screenshot_ar.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ast.ts
+Updating 'translations/deepin-screenshot_ast.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_az.ts
+Updating 'translations/deepin-screenshot_az.qm'...
+    Generated 11 translation(s) (11 finished and 0 unfinished)
+    Ignored 41 untranslated source text(s)
+
+process translations/deepin-screenshot_bg.ts
+Updating 'translations/deepin-screenshot_bg.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_bn.ts
+Updating 'translations/deepin-screenshot_bn.qm'...
+    Generated 9 translation(s) (9 finished and 0 unfinished)
+    Ignored 43 untranslated source text(s)
+
+process translations/deepin-screenshot_ca.ts
+Updating 'translations/deepin-screenshot_ca.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_cs.ts
+Updating 'translations/deepin-screenshot_cs.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_da.ts
+Updating 'translations/deepin-screenshot_da.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_de.ts
+Updating 'translations/deepin-screenshot_de.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_el.ts
+Updating 'translations/deepin-screenshot_el.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_en_AU.ts
+Updating 'translations/deepin-screenshot_en_AU.qm'...
+    Generated 14 translation(s) (14 finished and 0 unfinished)
+    Ignored 38 untranslated source text(s)
+
+process translations/deepin-screenshot_eo.ts
+Updating 'translations/deepin-screenshot_eo.qm'...
+    Generated 9 translation(s) (9 finished and 0 unfinished)
+    Ignored 43 untranslated source text(s)
+
+process translations/deepin-screenshot_es.ts
+Updating 'translations/deepin-screenshot_es.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_es_419.ts
+Updating 'translations/deepin-screenshot_es_419.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_fa.ts
+Updating 'translations/deepin-screenshot_fa.qm'...
+    Generated 8 translation(s) (8 finished and 0 unfinished)
+    Ignored 44 untranslated source text(s)
+
+process translations/deepin-screenshot_fi.ts
+Updating 'translations/deepin-screenshot_fi.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_fil.ts
+Updating 'translations/deepin-screenshot_fil.qm'...
+    Generated 0 translation(s) (0 finished and 0 unfinished)
+    Ignored 51 untranslated source text(s)
+
+process translations/deepin-screenshot_fr.ts
+Updating 'translations/deepin-screenshot_fr.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_gl_ES.ts
+Updating 'translations/deepin-screenshot_gl_ES.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_he.ts
+Updating 'translations/deepin-screenshot_he.qm'...
+    Generated 46 translation(s) (46 finished and 0 unfinished)
+    Ignored 6 untranslated source text(s)
+
+process translations/deepin-screenshot_hi_IN.ts
+Updating 'translations/deepin-screenshot_hi_IN.qm'...
+    Generated 43 translation(s) (43 finished and 0 unfinished)
+    Ignored 9 untranslated source text(s)
+
+process translations/deepin-screenshot_hr.ts
+Updating 'translations/deepin-screenshot_hr.qm'...
+    Generated 50 translation(s) (50 finished and 0 unfinished)
+    Ignored 2 untranslated source text(s)
+
+process translations/deepin-screenshot_hu.ts
+Updating 'translations/deepin-screenshot_hu.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_hy.ts
+Updating 'translations/deepin-screenshot_hy.qm'...
+    Generated 5 translation(s) (5 finished and 0 unfinished)
+    Ignored 47 untranslated source text(s)
+
+process translations/deepin-screenshot_id.ts
+Updating 'translations/deepin-screenshot_id.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_it.ts
+Updating 'translations/deepin-screenshot_it.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ja.ts
+Updating 'translations/deepin-screenshot_ja.qm'...
+    Generated 50 translation(s) (50 finished and 0 unfinished)
+    Ignored 2 untranslated source text(s)
+
+process translations/deepin-screenshot_ko.ts
+Updating 'translations/deepin-screenshot_ko.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ku_IQ.ts
+Updating 'translations/deepin-screenshot_ku_IQ.qm'...
+    Generated 3 translation(s) (3 finished and 0 unfinished)
+    Ignored 49 untranslated source text(s)
+
+process translations/deepin-screenshot_lt.ts
+Updating 'translations/deepin-screenshot_lt.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ml.ts
+Updating 'translations/deepin-screenshot_ml.qm'...
+    Generated 6 translation(s) (6 finished and 0 unfinished)
+    Ignored 46 untranslated source text(s)
+
+process translations/deepin-screenshot_mn.ts
+Updating 'translations/deepin-screenshot_mn.qm'...
+    Generated 6 translation(s) (6 finished and 0 unfinished)
+    Ignored 46 untranslated source text(s)
+
+process translations/deepin-screenshot_ms.ts
+Updating 'translations/deepin-screenshot_ms.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_nb.ts
+Updating 'translations/deepin-screenshot_nb.qm'...
+    Generated 49 translation(s) (49 finished and 0 unfinished)
+    Ignored 3 untranslated source text(s)
+
+process translations/deepin-screenshot_ne.ts
+Updating 'translations/deepin-screenshot_ne.qm'...
+    Generated 4 translation(s) (4 finished and 0 unfinished)
+    Ignored 48 untranslated source text(s)
+
+process translations/deepin-screenshot_nl.ts
+Updating 'translations/deepin-screenshot_nl.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_pam.ts
+Updating 'translations/deepin-screenshot_pam.qm'...
+    Generated 5 translation(s) (5 finished and 0 unfinished)
+    Ignored 47 untranslated source text(s)
+
+process translations/deepin-screenshot_pl.ts
+Updating 'translations/deepin-screenshot_pl.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_pt.ts
+Updating 'translations/deepin-screenshot_pt.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_pt_BR.ts
+Updating 'translations/deepin-screenshot_pt_BR.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_ro.ts
+Updating 'translations/deepin-screenshot_ro.qm'...
+    Generated 45 translation(s) (45 finished and 0 unfinished)
+    Ignored 7 untranslated source text(s)
+
+process translations/deepin-screenshot_ru.ts
+Updating 'translations/deepin-screenshot_ru.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_sk.ts
+Updating 'translations/deepin-screenshot_sk.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_sl.ts
+Updating 'translations/deepin-screenshot_sl.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_sq.ts
+Updating 'translations/deepin-screenshot_sq.qm'...
+    Generated 2 translation(s) (2 finished and 0 unfinished)
+    Ignored 50 untranslated source text(s)
+
+process translations/deepin-screenshot_sr.ts
+Updating 'translations/deepin-screenshot_sr.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_sv.ts
+Updating 'translations/deepin-screenshot_sv.qm'...
+    Generated 49 translation(s) (49 finished and 0 unfinished)
+    Ignored 3 untranslated source text(s)
+
+process translations/deepin-screenshot_ta.ts
+Updating 'translations/deepin-screenshot_ta.qm'...
+    Generated 8 translation(s) (8 finished and 0 unfinished)
+    Ignored 44 untranslated source text(s)
+
+process translations/deepin-screenshot_tr.ts
+Updating 'translations/deepin-screenshot_tr.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_uk.ts
+Updating 'translations/deepin-screenshot_uk.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_vi.ts
+Updating 'translations/deepin-screenshot_vi.qm'...
+    Generated 14 translation(s) (14 finished and 0 unfinished)
+    Ignored 38 untranslated source text(s)
+
+process translations/deepin-screenshot_zh_CN.ts
+Updating 'translations/deepin-screenshot_zh_CN.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_zh_HK.ts
+Updating 'translations/deepin-screenshot_zh_HK.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+
+process translations/deepin-screenshot_zh_TW.ts
+Updating 'translations/deepin-screenshot_zh_TW.qm'...
+    Generated 52 translation(s) (52 finished and 0 unfinished)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /__w/deepin-screenshot/deepin-screenshot/build
+make: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[1]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+Scanning dependencies of target deepin-screenshot_autogen
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[  2%] Automatic MOC for target deepin-screenshot
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[  2%] Built target deepin-screenshot_autogen
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[  5%] Automatic RCC for src/widgets/resources.qrc
+[  7%] Automatic RCC for src/res.qrc
+Scanning dependencies of target deepin-screenshot
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[ 10%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/main.cpp.o
+[ 13%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/eventcontainer.cpp.o
+[ 15%] Building CXX object CMakeFiles/deepin-screenshot.dir/deepin-screenshot_autogen/mocs_compilation.cpp.o
+[ 18%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/mainwindow.cpp.o
+[ 21%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/screenshot.cpp.o
+/__w/deepin-screenshot/deepin-screenshot/src/main.cpp: In function 'int main(int, char**)':
+/__w/deepin-screenshot/deepin-screenshot/src/main.cpp:38:20: warning: 'static bool Dtk::Widget::DApplication::loadDXcbPlugin()' is deprecated [-Wdeprecated-declarations]
+   38 |      DApplication::loadDXcbPlugin();
+      |                    ^~~~~~~~~~~~~~
+In file included from /usr/include/libdtk-5.0.0/DCore/../DWidget/DApplication:1,
+                 from /__w/deepin-screenshot/deepin-screenshot/src/main.cpp:20:
+/usr/include/libdtk-5.0.0/DCore/../DWidget/dapplication.h:72:35: note: declared here
+   72 |     D_DECL_DEPRECATED static bool loadDXcbPlugin();
+      |                                   ^~~~~~~~~~~~~~
+/__w/deepin-screenshot/deepin-screenshot/src/main.cpp:38:35: warning: 'static bool Dtk::Widget::DApplication::loadDXcbPlugin()' is deprecated [-Wdeprecated-declarations]
+   38 |      DApplication::loadDXcbPlugin();
+      |                                   ^
+In file included from /usr/include/libdtk-5.0.0/DCore/../DWidget/DApplication:1,
+                 from /__w/deepin-screenshot/deepin-screenshot/src/main.cpp:20:
+/usr/include/libdtk-5.0.0/DCore/../DWidget/dapplication.h:72:35: note: declared here
+   72 |     D_DECL_DEPRECATED static bool loadDXcbPlugin();
+      |                                   ^~~~~~~~~~~~~~
+/__w/deepin-screenshot/deepin-screenshot/src/main.cpp:38:35: warning: 'static bool Dtk::Widget::DApplication::loadDXcbPlugin()' is deprecated [-Wdeprecated-declarations]
+   38 |      DApplication::loadDXcbPlugin();
+      |                                   ^
+In file included from /usr/include/libdtk-5.0.0/DCore/../DWidget/DApplication:1,
+                 from /__w/deepin-screenshot/deepin-screenshot/src/main.cpp:20:
+/usr/include/libdtk-5.0.0/DCore/../DWidget/dapplication.h:72:35: note: declared here
+   72 |     D_DECL_DEPRECATED static bool loadDXcbPlugin();
+      |                                   ^~~~~~~~~~~~~~
+/__w/deepin-screenshot/deepin-screenshot/src/main.cpp:45:24: warning: 'void Dtk::Widget::DApplication::setTheme(const QString&)' is deprecated [-Wdeprecated-declarations]
+   45 |      a.setTheme("light");
+      |                        ^
+In file included from /usr/include/libdtk-5.0.0/DCore/../DWidget/DApplication:1,
+                 from /__w/deepin-screenshot/deepin-screenshot/src/main.cpp:20:
+/usr/include/libdtk-5.0.0/DCore/../DWidget/dapplication.h:60:28: note: declared here
+   60 |     D_DECL_DEPRECATED void setTheme(const QString &theme);
+      |                            ^~~~~~~~
+[ 23%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/baseutils.cpp.o
+[ 26%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/calculaterect.cpp.o
+[ 28%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/screenutils.cpp.o
+[ 31%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/shapesutils.cpp.o
+[ 34%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/shortcut.cpp.o
+[ 36%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/configsettings.cpp.o
+[ 39%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/utils/tempfile.cpp.o
+[ 42%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/bigcolorbutton.cpp.o
+[ 44%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/colorbutton.cpp.o
+[ 47%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/fontsizewidget.cpp.o
+[ 50%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/majtoolbar.cpp.o
+[ 52%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/savebutton.cpp.o
+[ 55%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/savetips.cpp.o
+[ 57%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/subtoolbar.cpp.o
+[ 60%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/textbutton.cpp.o
+[ 63%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/textedit.cpp.o
+/__w/deepin-screenshot/deepin-screenshot/src/utils/calculaterect.cpp: In function 'QPointF getNewPosition(FourPoints, QList<double>)':
+/__w/deepin-screenshot/deepin-screenshot/src/utils/calculaterect.cpp:380:20: warning: 'changeY' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  380 |     qreal changeX, changeY;
+      |                    ^~~~~~~
+/__w/deepin-screenshot/deepin-screenshot/src/utils/calculaterect.cpp:380:11: warning: 'changeX' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  380 |     qreal changeX, changeY;
+      |           ^~~~~~~
+[ 65%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/toolbar.cpp.o
+[ 68%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/toptips.cpp.o
+[ 71%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/shapeswidget.cpp.o
+[ 73%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/widgets/zoomIndicator.cpp.o
+[ 76%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/controller/menucontroller.cpp.o
+[ 78%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusinterface/dbuscontrolcenter.cpp.o
+[ 81%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusinterface/dbusnotify.cpp.o
+[ 84%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusinterface/dbussoundeffect.cpp.o
+[ 86%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusinterface/dbuszone.cpp.o
+[ 89%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusservice/dbusscreenshot.cpp.o
+[ 92%] Building CXX object CMakeFiles/deepin-screenshot.dir/src/dbusservice/dbusscreenshotservice.cpp.o
+[ 94%] Building CXX object CMakeFiles/deepin-screenshot.dir/deepin-screenshot_autogen/UVLADIE3JM/qrc_res.cpp.o
+[ 97%] Building CXX object CMakeFiles/deepin-screenshot.dir/deepin-screenshot_autogen/RZ4CM6YYJ6/qrc_resources.cpp.o
+[100%] Linking CXX executable deepin-screenshot
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[100%] Built target deepin-screenshot
+make[1]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
