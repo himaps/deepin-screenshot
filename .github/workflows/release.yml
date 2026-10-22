@@ -31,7 +31,7 @@ jobs:
             osarch: linux-amd64
     # Native runners produce native builds, no cross compilation needed
     runs-on: ${{ matrix.runner }}
-    # Build inside Ubuntu 20.04 (focal): the SAME distro base as the Kylin V20
+    # Build inside Ubuntu 20.04 (focal): the SAME distro base as the Kylin V10 SP1
     # target. Qt 5.12.8 and glibc 2.31 therefore match the target machine, so
     # the offline bundle never needs to upgrade an installed library - the
     # installer only ever adds packages that are missing. Earlier attempts
@@ -66,9 +66,14 @@ jobs:
               fi
               sleep 20
             done
-            # libxcb-util-dev was renamed from libxcb-util0-dev
+            # libxcb-util-dev was renamed from libxcb-util0-dev; capture first,
+            # then match - `apt-cache | grep -q` under pipefail lets SIGPIPE
+            # kill apt-cache and flip the probe result (known trap)
             XCBUTIL=libxcb-util0-dev
-            apt-cache show libxcb-util-dev 2>/dev/null | grep -q '^Package:' && XCBUTIL=libxcb-util-dev
+            PROBE="$(apt-cache show libxcb-util-dev 2>/dev/null || true)"
+            case "$PROBE" in
+              *'Package: libxcb-util-dev'*) XCBUTIL=libxcb-util-dev ;;
+            esac
             for attempt in 1 2 3; do
               if timeout 1200 apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
                 build-essential cmake pkg-config git curl ca-certificates xz-utils \
@@ -95,11 +100,17 @@ jobs:
             set -e
             # focal ships no DTK. Build the exact 5.2.x sources Debian
             # bullseye packaged: they are contemporary with this app and
-            # support Qt 5.12, so the result matches Kylin V20's Qt.
+            # support Qt 5.12, so the result matches Kylin V10 SP1's Qt.
+            # Tarball hashes are pinned - curl bypasses apt signature checks.
             mkdir -p /tmp/dtk && cd /tmp/dtk
-            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkcore/dtkcore_5.2.2.5.orig.tar.gz
-            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkgui/dtkgui_5.2.2.4.orig.tar.gz
-            curl -fsSLO http://deb.debian.org/debian/pool/main/d/dtkwidget/dtkwidget_5.2.2.10.orig.tar.gz
+            curl -fsSLO https://deb.debian.org/debian/pool/main/d/dtkcore/dtkcore_5.2.2.5.orig.tar.gz
+            curl -fsSLO https://deb.debian.org/debian/pool/main/d/dtkgui/dtkgui_5.2.2.4.orig.tar.gz
+            curl -fsSLO https://deb.debian.org/debian/pool/main/d/dtkwidget/dtkwidget_5.2.2.10.orig.tar.gz
+            {
+              echo '8a9ecfd629dc6f8e98649a950fba24a590da867b988e621e03ff83fe634d4eef  dtkcore_5.2.2.5.orig.tar.gz'
+              echo '31081c90430eda993b6bbcf061eee82fa392fc46fa5332e0c0d93194c56c27f1  dtkgui_5.2.2.4.orig.tar.gz'
+              echo '35abb13c053a5005e29413f197fa3ce8a9b499be8a54798d652a22b1b7186a28  dtkwidget_5.2.2.10.orig.tar.gz'
+            } | sha256sum -c -
             for t in dtkcore_5.2.2.5 dtkgui_5.2.2.4 dtkwidget_5.2.2.10; do
               tar -xzf "${t}.orig.tar.gz"
             done
@@ -187,6 +198,7 @@ jobs:
           Maintainer: deepin-screenshot UOS customization
           Section: utils
           Priority: optional
+          Depends: libc6 (>= 2.31), libgcc-s1, libstdc++6 (>= 9)
           Description: Advanced screenshot tool (UOS ${ARCH} build)
            Easy-to-use screenshot tool with region selection and annotations:
            rectangle, ellipse, arrow, pencil, text and color tools.
@@ -227,7 +239,7 @@ jobs:
             done
             echo "offline deps direct closure:$TOP"
             # Expand to the full recursive Depends closure: target distros
-            # (e.g. Kylin V20, Ubuntu 20.04 base) package some libraries under
+            # (e.g. Kylin V10 SP1, Ubuntu 20.04 base) package some libraries under
             # different names, so the bundle must contain every indirect
             # dependency for dpkg -i to succeed offline.
             PKGS="$TOP"
@@ -255,7 +267,7 @@ jobs:
               [ "$(dpkg-deb -f "$f" Essential)" = "yes" ] && continue
               # glibc and anything that owns core OS machinery must never be
               # replaced by a bundled copy - upgrading systemd on the target
-              # crashed Kylin V20 (see README)
+              # crashed Kylin V10 SP1 (see README)
               case "$p" in
                 libc6|systemd*|libsystemd*|libudev*|udev|dbus*|libpam*|login|passwd) continue ;;
               esac
@@ -307,6 +319,10 @@ jobs:
           # dpkg holds its lock while this script runs, so the bundled dependency
           # debs cannot be installed here directly. Detect missing libraries and
           # schedule the installer to run via systemd once the lock is released.
+          if [ ! -x /usr/bin/deepin-screenshot ]; then
+            echo "ERROR: /usr/bin/deepin-screenshot is missing - the package payload is broken" >&2
+            exit 1
+          fi
           MISSING="$(ldd /usr/bin/deepin-screenshot 2>/dev/null | awk '/not found/ {print $1}')"
           if [ -z "$MISSING" ]; then
             echo "deepin-screenshot: all runtime libraries present, nothing to do."
@@ -338,7 +354,7 @@ jobs:
            closure (deps/) and install-deps.sh for machines without network
            access. Libraries already present on the system are used; only
            missing ones are installed from the bundle. Never replace glibc.
-           Requires glibc >= 2.31 and Qt 5.12 era libraries (Kylin V20 /
+           Requires glibc >= 2.31 and Qt 5.12 era libraries (Kylin V10 SP1 /
            Ubuntu 20.04 native; installs missing packages only, never
            upgrades the system).
           EOF
@@ -350,6 +366,33 @@ jobs:
           set -o pipefail
           VERSION="${{ steps.ver.outputs.version }}"
           tar -C staging -czf "deepin-screenshot-${VERSION}-${{ matrix.osarch }}.tar.gz" . 2>&1 | tee -a package.log
+
+      - name: Assert deb payloads
+        run: |
+          set -e
+          VERSION="${{ steps.ver.outputs.version }}"
+          check() {
+            deb="$1"; shift
+            dpkg-deb -c "$deb" > /tmp/payload.txt
+            for f in "$@"; do
+              grep -qE "/${f}\$" /tmp/payload.txt || { echo "MISSING in ${deb}: ${f}"; exit 1; }
+            done
+            echo "payload ok: ${deb}"
+          }
+          check "pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}.deb" \
+            usr/bin/deepin-screenshot \
+            usr/share/applications/deepin-screenshot.desktop \
+            usr/share/icons/hicolor/scalable/apps/deepin-screenshot.svg \
+            usr/share/dbus-1/services/com.deepin.Screenshot.service
+          check "pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}-offline.deb" \
+            usr/bin/deepin-screenshot \
+            usr/share/applications/deepin-screenshot.desktop \
+            usr/share/icons/hicolor/scalable/apps/deepin-screenshot.svg \
+            usr/share/dbus-1/services/com.deepin.Screenshot.service \
+            usr/share/deepin-screenshot/install-deps.sh
+          N="$(dpkg-deb -c "pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}-offline.deb" | grep -cE 'deps/.*\.deb$')"
+          echo "bundled dependency debs: ${N}"
+          [ "${N}" -ge 1 ]
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -414,10 +457,136 @@ jobs:
             }
             core.info('logs pushed to ci-logs: ' + files.map(f => f.name).join(', '));
 
+  verify-offline:
+    name: Verify ${{ matrix.osarch }} offline install
+    needs: build-deb
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+            osarch: linux-aarch64
+          - arch: amd64
+            runner: ubuntu-24.04
+            osarch: linux-amd64
+    # Verify inside the target distro base itself, with no network: pure dpkg,
+    # exactly like an offline Kylin machine.
+    runs-on: ${{ matrix.runner }}
+    container: ubuntu:20.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: deepin-screenshot-${{ matrix.osarch }}-*
+          merge-multiple: true
+          path: pkg
+
+      - name: Install offline deb and verify
+        run: |
+          set -o pipefail
+          {
+            set -e
+            export DEBIAN_FRONTEND=noninteractive
+            DEB="$(ls pkg/deepin-screenshot-*-offline.deb)"
+            echo "verifying: ${DEB}"
+
+            snap() {
+              dpkg-query -W -f='${binary:Package}\t${Version}\t${db:Status-Abbrev}\n' 2>/dev/null \
+                | awk -F'\t' '$3 ~ /^ii/ {print $1 "\t" $2}' | sort
+            }
+            snap > /tmp/before.tsv
+
+            dpkg -i "${DEB}"
+            # the container has no systemd for the deferred installer, so run
+            # it directly, exactly as postinst instructs on a real machine
+            /usr/share/deepin-screenshot/install-deps.sh
+            snap > /tmp/after.tsv
+
+            # zero-upgrade assertion: no pre-existing (name, version) pair may
+            # disappear - an upgrade or replacement would show up here
+            CHANGED="$(comm -23 /tmp/before.tsv /tmp/after.tsv)"
+            if [ -n "${CHANGED}" ]; then
+              echo "FAIL: installed packages were changed or removed:"
+              echo "${CHANGED}"
+              exit 1
+            fi
+
+            # the bundle must have added the DTK runtime that focal lacks
+            for p in libdtkcore5 libdtkgui5 libdtkwidget5; do
+              awk -F'\t' -v pkg="${p}" '$1==pkg{f=1} END{exit f?0:1}' /tmp/after.tsv \
+                || { echo "FAIL: ${p} not installed from the bundle"; exit 1; }
+            done
+            echo "newly installed packages: $(comm -13 /tmp/before.tsv /tmp/after.tsv | wc -l)"
+
+            # ldd gate: nothing may be unresolved
+            NOTFOUND="$(ldd /usr/bin/deepin-screenshot 2>&1 | awk '/not found/ {print $1}')"
+            if [ -n "${NOTFOUND}" ]; then
+              echo "FAIL: ldd reports unresolved libraries:"
+              echo "${NOTFOUND}"
+              exit 1
+            fi
+            echo "verification passed: offline install is purely additive and all libraries resolve"
+          } 2>&1 | tee verify.log
+
+      - name: Save verify log on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const ws = process.env.GITHUB_WORKSPACE || '.';
+            const arch = process.env.RUNNER_ARCH === 'ARM64' ? 'aarch64' : 'amd64';
+            const stamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
+            const files = [];
+            for (const n of ['verify.log']) {
+              const p = path.join(ws, n);
+              if (fs.existsSync(p)) files.push({ name: n.replace(/\.log$/, '') + '-' + arch + '-' + stamp + '.log', p });
+            }
+            if (files.length === 0) { core.info('no log files found'); return; }
+            const { owner, repo } = context.repo;
+            let baseCommit = null;
+            try {
+              const ref = await github.rest.git.getRef({ owner, repo, ref: 'heads/ci-logs' });
+              baseCommit = ref.data.object.sha;
+            } catch (e) { /* branch does not exist yet */ }
+            const tree = [];
+            for (const f of files) {
+              const blob = await github.rest.git.createBlob({
+                owner, repo,
+                content: fs.readFileSync(f.p).toString('base64'),
+                encoding: 'base64',
+              });
+              tree.push({ path: f.name, mode: '100644', type: 'blob', sha: blob.data.sha });
+            }
+            let baseTree;
+            if (baseCommit) {
+              const c = await github.rest.git.getCommit({ owner, repo, commit_sha: baseCommit });
+              baseTree = c.data.tree.sha;
+            }
+            const newTree = await github.rest.git.createTree({
+              owner, repo,
+              ...(baseTree ? { base_tree: baseTree } : {}),
+              tree,
+            });
+            const commit = await github.rest.git.createCommit({
+              owner, repo,
+              message: 'ci log: verify failure (' + arch + ') at ' + context.sha,
+              tree: newTree.data.sha,
+              parents: baseCommit ? [baseCommit] : [],
+            });
+            if (baseCommit) {
+              await github.rest.git.updateRef({ owner, repo, ref: 'heads/ci-logs', sha: commit.data.sha, force: true });
+            } else {
+              await github.rest.git.createRef({ owner, repo, ref: 'refs/heads/ci-logs', sha: commit.data.sha });
+            }
+            core.info('verify log pushed to ci-logs');
+
   publish-release:
     name: Publish GitHub release
     if: startsWith(github.ref, 'refs/tags/')
-    needs: build-deb
+    needs: [build-deb, verify-offline]
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
@@ -440,11 +609,12 @@ jobs:
             text and color annotation tools
           - Provides the com.deepin.Screenshot DBus service
 
-          Built on Ubuntu 20.04 runners inside an Ubuntu 20.04 container - the
-          same base as Kylin V20 (Qt 5.12.8, glibc 2.31, matching library
-          names). The offline installer only adds packages missing on the
-          target and never upgrades an installed one, so it cannot touch
-          systemd or any other OS component.
+          Built on Ubuntu 20.04 for Kylin V10 SP1 desktop (same distro base:
+          Qt 5.12.8 / glibc 2.31, matching library names). The offline
+          installer only adds packages missing on the target and never
+          upgrades an installed one, so it cannot touch systemd or any other
+          OS component. NOT supported: Kylin V10 original (glibc 2.23), UOS 20
+          (glibc 2.28) - those need an on-device build.
           Assets: arm64 for UOS ARM64 devices, amd64 for x86_64 (VM) testing.
           Install: `sudo dpkg -i deepin-screenshot-*.deb` (no strict Depends, a
           UOS/deepin desktop provides the Qt5/DTK runtime).
