@@ -244,10 +244,14 @@ jobs:
             # dependency for dpkg -i to succeed offline.
             PKGS="$TOP"
             for round in 1 2 3 4 5; do
-              rm -rf /tmp/offline-cache
+              # the cache persists across rounds so apt only fetches what is
+              # new; timeout turns a stalled connection into a retryable error
               mkdir -p /tmp/offline-cache
-              apt-get install --reinstall --download-only --no-install-recommends \
-                -y -o Dir::Cache::archives="/tmp/offline-cache" $PKGS >/dev/null
+              timeout 1200 apt-get install --reinstall --download-only --no-install-recommends \
+                -y -o Acquire::Retries=5 -o Dir::Cache::archives="/tmp/offline-cache" $PKGS >/dev/null || {
+                echo "closure download failed or timed out (round $round)"
+                exit 1
+              }
               MORE=""
               for f in /tmp/offline-cache/*.deb; do
                 deps="$(dpkg-deb -f "$f" Depends 2>/dev/null | sed 's/ ([^)]*)//g' | tr ',' '\n' | sed 's/|.*//; s/^ *//; s/ *$//' | grep -v '^$' || true)"
