@@ -131,11 +131,15 @@ jobs:
               pkgdir="/tmp/dtk-debs/${name}"
               rm -rf "$pkgdir"
               install -d "${pkgdir}/DEBIAN" "${pkgdir}/usr/lib/${{ matrix.multiarch }}"
-              cp -a "/usr/lib/${{ matrix.multiarch }}/${soname}"* "${pkgdir}/usr/lib/${{ matrix.multiarch }}/"
-              if [ -d "/usr/share/libdtk-5.2.2/${sub}/translations" ]; then
-                install -d "${pkgdir}/usr/share/libdtk-5.2.2/${sub}"
-                cp -a "/usr/share/libdtk-5.2.2/${sub}/translations" "${pkgdir}/usr/share/libdtk-5.2.2/${sub}/"
-              fi
+              # dtk 5.2's qmake installs the libraries into /usr/lib directly
+              # (no multiarch subdirectory)
+              cp -a /usr/lib/${soname}* "${pkgdir}/usr/lib/${{ matrix.multiarch }}/"
+              for tdir in /usr/share/libdtk-*/${sub}/translations; do
+                if [ -d "$tdir" ]; then
+                  install -d "${pkgdir}/usr/share/libdtk-5.2.2/${sub}"
+                  cp -a "$tdir" "${pkgdir}/usr/share/libdtk-5.2.2/${sub}/"
+                fi
+              done
               cat > "${pkgdir}/DEBIAN/control" <<EOF
           Package: ${name}
           Version: ${ver}
