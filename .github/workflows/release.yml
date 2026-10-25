@@ -268,8 +268,10 @@ jobs:
             TOP=""
             for lib in $LIBS; do
               # dpkg -S exits 1 for loader-internal libs (linux-vdso etc.);
-              # || true keeps set -e from exiting silently on the assignment
-              p="$(dpkg -S "$lib" 2>/dev/null | head -1 | cut -d: -f1 || true)"
+              # || true keeps set -e from exiting silently on the assignment.
+              # A library often belongs to both the runtime package and its
+              # -dev counterpart; prefer the runtime one.
+              p="$(dpkg -S "$lib" 2>/dev/null | cut -d: -f1 | grep -vE -- '-dev$|-dbg$|-dev-bin$' | head -1 || true)"
               [ -n "$p" ] && TOP="$TOP $p"
             done
             echo "offline deps direct closure:$TOP"
@@ -324,6 +326,10 @@ jobs:
               # crashed Kylin V10 SP1 (see README)
               case "$p" in
                 libc6|systemd*|libsystemd*|libudev*|udev|dbus*|libpam*|login|passwd) continue ;;
+                # dev/toolchain packages never belong in a runtime closure;
+                # upgrading them on the target would also trip the zero-upgrade
+                # assertion in the verify job
+                *-dev|*-dev-bin|*-dbg|gcc-*|g++-*|cpp-*|binutils*|dpkg-dev) continue ;;
               esac
               cp "$f" "${PKGDIR}/usr/share/deepin-screenshot/deps/"
             done
