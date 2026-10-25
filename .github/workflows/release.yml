@@ -122,6 +122,37 @@ jobs:
               make install
               ldconfig
             done
+            # Package the self-built DTK runtimes as real debs and install
+            # them: dpkg then owns the files, so the offline closure's
+            # ldd -> dpkg -S mapping finds them and target machines get
+            # properly registered, cleanly uninstallable packages.
+            build_dtk_deb() {
+              name="$1"; soname="$2"; ver="$3"; sub="$4"; deps="$5"
+              pkgdir="/tmp/dtk-debs/${name}"
+              rm -rf "$pkgdir"
+              install -d "${pkgdir}/DEBIAN" "${pkgdir}/usr/lib/${{ matrix.multiarch }}"
+              cp -a "/usr/lib/${{ matrix.multiarch }}/${soname}"* "${pkgdir}/usr/lib/${{ matrix.multiarch }}/"
+              if [ -d "/usr/share/libdtk-5.2.2/${sub}/translations" ]; then
+                install -d "${pkgdir}/usr/share/libdtk-5.2.2/${sub}"
+                cp -a "/usr/share/libdtk-5.2.2/${sub}/translations" "${pkgdir}/usr/share/libdtk-5.2.2/${sub}/"
+              fi
+              cat > "${pkgdir}/DEBIAN/control" <<EOF
+          Package: ${name}
+          Version: ${ver}
+          Architecture: ${{ matrix.arch }}
+          Maintainer: deepin-screenshot UOS customization
+          Section: libs
+          Priority: optional
+          Depends: ${deps}
+          Description: DTK ${sub} runtime, self-built for Kylin V10 SP1 offline installs
+          EOF
+              dpkg-deb --build --root-owner-group "${pkgdir}" "/tmp/dtk-debs/${name}_${ver}_${{ matrix.arch }}.deb"
+              dpkg -i "/tmp/dtk-debs/${name}_${ver}_${{ matrix.arch }}.deb"
+            }
+            build_dtk_deb libdtkcore5 libdtkcore.so.5 5.2.2.5 DCore "libc6 (>= 2.31), libgcc-s1, libstdc++6 (>= 9), libglib2.0-0, libqt5core5a"
+            build_dtk_deb libdtkgui5 libdtkgui.so.5 5.2.2.4 DGui "libc6 (>= 2.31), libdtkcore5, libqt5core5a, libqt5gui5"
+            build_dtk_deb libdtkwidget5 libdtkwidget.so.5 5.2.2.10 DWidget "libc6 (>= 2.31), libdtkcore5, libdtkgui5, libqt5core5a, libqt5gui5, libqt5widgets5"
+            ldconfig
             # dtkwm (DScreenWindowsUtil, multi-screen window selection) is a
             # separate tiny library; build it directly with g++ and moc.
             git clone --depth 1 --branch 2.0.12 https://github.com/martyr-deepin/dtkwm.git /tmp/dtkwm
@@ -242,6 +273,11 @@ jobs:
             # (e.g. Kylin V10 SP1, Ubuntu 20.04 base) package some libraries under
             # different names, so the bundle must contain every indirect
             # dependency for dpkg -i to succeed offline.
+            # the self-built DTK runtime debs are not in any apt index; seed
+            # the cache so their Depends join the expansion and the copy
+            # below bundles them
+            mkdir -p /tmp/offline-cache
+            cp /tmp/dtk-debs/*.deb /tmp/offline-cache/
             PKGS="$TOP"
             STABLE=""
             for attempt in 1 2 3; do
