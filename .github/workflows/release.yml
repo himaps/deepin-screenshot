@@ -243,29 +243,39 @@ jobs:
             # different names, so the bundle must contain every indirect
             # dependency for dpkg -i to succeed offline.
             PKGS="$TOP"
-            for round in 1 2 3 4 5; do
-              # the cache persists across rounds so apt only fetches what is
-              # new; timeout turns a stalled connection into a retryable error
-              mkdir -p /tmp/offline-cache
-              timeout 1200 apt-get install --reinstall --download-only --no-install-recommends \
-                -y -o Acquire::Retries=5 -o Dir::Cache::archives="/tmp/offline-cache" $PKGS >/dev/null || {
-                echo "closure download failed or timed out (round $round)"
-                exit 1
-              }
-              MORE=""
-              for f in /tmp/offline-cache/*.deb; do
-                deps="$(dpkg-deb -f "$f" Depends 2>/dev/null | sed 's/ ([^)]*)//g' | tr ',' '\n' | sed 's/|.*//; s/^ *//; s/ *$//' | grep -v '^$' || true)"
-                MORE="$MORE $deps"
+            STABLE=""
+            for attempt in 1 2 3; do
+              for round in 1 2 3 4 5 6 7 8; do
+                # the cache persists across rounds and attempts so apt only
+                # fetches what is still missing; timeout turns a stalled
+                # connection into a retryable error
+                mkdir -p /tmp/offline-cache
+                if timeout 1200 apt-get install --reinstall --download-only --no-install-recommends \
+                  -y -o Acquire::Retries=5 -o Dir::Cache::archives="/tmp/offline-cache" $PKGS >/dev/null; then
+                  MORE=""
+                  for f in /tmp/offline-cache/*.deb; do
+                    deps="$(dpkg-deb -f "$f" Depends 2>/dev/null | sed 's/ ([^)]*)//g' | tr ',' '\n' | sed 's/|.*//; s/^ *//; s/ *$//' | grep -v '^$' || true)"
+                    MORE="$MORE $deps"
+                  done
+                  NEW="$(echo $PKGS $MORE | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+                  CUR="$(echo $PKGS | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+                  if [ "$NEW" = "$CUR" ]; then
+                    STABLE=yes
+                    echo "closure stable after round $round ($(echo $NEW | wc -w) packages)"
+                    break
+                  fi
+                  PKGS="$NEW"
+                  echo "closure round $round grew to $(echo $NEW | wc -w) packages"
+                else
+                  echo "closure download failed (attempt $attempt, round $round), retrying in 30s"
+                  break
+                fi
               done
-              NEW="$(echo $PKGS $MORE | tr ' ' '\n' | sort -u | tr '\n' ' ')"
-              CUR="$(echo $PKGS | tr ' ' '\n' | sort -u | tr '\n' ' ')"
-              if [ "$NEW" = "$CUR" ]; then
-                echo "closure stable after round $round ($(echo $NEW | wc -w) packages)"
-                break
-              fi
-              PKGS="$NEW"
-              echo "closure round $round grew to $(echo $NEW | wc -w) packages"
+              [ -n "$STABLE" ] && break
+              sleep 30
             done
+            # never build an offline deb from an incomplete closure
+            [ -n "$STABLE" ] || { echo "dependency closure did not converge"; exit 1; }
             for f in /tmp/offline-cache/*.deb; do
               p="$(dpkg-deb -f "$f" Package)"
               [ "$(dpkg-deb -f "$f" Essential)" = "yes" ] && continue
