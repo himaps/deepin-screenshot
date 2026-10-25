@@ -494,7 +494,8 @@ jobs:
         with:
           pattern: deepin-screenshot-${{ matrix.osarch }}-*
           merge-multiple: true
-          path: pkg
+          # the artifact keeps its pkg/ prefix, so restore it at the workspace root
+          path: .
 
       - name: Install offline deb and verify
         run: |
