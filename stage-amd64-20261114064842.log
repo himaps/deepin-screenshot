@@ -1,0 +1,77 @@
+make: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[1]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[  2%] Automatic MOC for target deepin-screenshot
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[  2%] Built target deepin-screenshot_autogen
+make[2]: Entering directory '/__w/deepin-screenshot/deepin-screenshot/build'
+make[2]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+[100%] Built target deepin-screenshot
+make[1]: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_af.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_am_ET.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ar.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ast.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_az.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_bg.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_bn.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ca.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_cs.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_da.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_de.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_el.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_en_AU.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_eo.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_es.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_es_419.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_fa.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_fi.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_fil.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_fr.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_gl_ES.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_he.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_hi_IN.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_hr.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_hu.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_hy.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_id.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_it.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ja.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ko.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ku_IQ.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_lt.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ml.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_mn.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ms.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_nb.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ne.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_nl.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_pam.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_pl.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_pt.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_pt_BR.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ro.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ru.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_sk.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_sl.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_sq.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_sr.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_sv.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_ta.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_tr.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_uk.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_vi.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_zh_CN.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_zh_HK.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/deepin-screenshot/translations/deepin-screenshot_zh_TW.qm
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/applications/deepin-screenshot.desktop
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/dbus-1/services/com.deepin.Screenshot.service
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/share/icons/hicolor/scalable/apps/deepin-screenshot.svg
+-- Installing: /__w/deepin-screenshot/deepin-screenshot/staging/usr/bin/deepin-screenshot
+-- Set runtime path of "/__w/deepin-screenshot/deepin-screenshot/staging/usr/bin/deepin-screenshot" to "/usr/lib/x86_64-linux-gnu/deepin-screenshot"
+make: Leaving directory '/__w/deepin-screenshot/deepin-screenshot/build'
