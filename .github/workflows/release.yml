@@ -134,10 +134,14 @@ jobs:
               # dtk 5.2's qmake installs the libraries into /usr/lib directly
               # (no multiarch subdirectory)
               cp -a /usr/lib/${soname}* "${pkgdir}/usr/lib/${{ matrix.multiarch }}/"
+              # translation files: preserve the installed path EXACTLY - the
+              # runtime looks in the version directory baked into the .so
+              # (e.g. /usr/share/libdtk-5.0.0/DWidget/translations); renaming
+              # the version breaks the lookup and Qt warns about missing qm
               for tdir in /usr/share/libdtk-*/${sub}/translations; do
-                if [ -d "$tdir" ]; then
-                  install -d "${pkgdir}/usr/share/libdtk-5.2.2/${sub}"
-                  cp -a "$tdir" "${pkgdir}/usr/share/libdtk-5.2.2/${sub}/"
+                if [ -d "$tdir" ] && ls "$tdir"/*.qm >/dev/null 2>&1; then
+                  install -d "${pkgdir}$(dirname "$tdir")"
+                  cp -a "$tdir" "${pkgdir}${tdir}"
                 fi
               done
               cat > "${pkgdir}/DEBIAN/control" <<EOF
@@ -449,7 +453,8 @@ jobs:
             usr/share/applications/deepin-screenshot.desktop \
             usr/share/icons/hicolor/scalable/apps/deepin-screenshot.svg \
             usr/share/dbus-1/services/com.deepin.Screenshot.service \
-            usr/share/deepin-screenshot/install-deps.sh
+            usr/share/deepin-screenshot/install-deps.sh \
+            'usr/share/libdtk-[0-9.]*/DWidget/translations/dtkwidget_zh_CN\.qm'
           N="$(dpkg-deb -c "pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}-offline.deb" | grep -cE 'deps/.*\.deb$')"
           echo "bundled dependency debs: ${N}"
           [ "${N}" -ge 1 ]
