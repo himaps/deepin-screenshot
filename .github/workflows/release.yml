@@ -453,8 +453,13 @@ jobs:
             usr/share/applications/deepin-screenshot.desktop \
             usr/share/icons/hicolor/scalable/apps/deepin-screenshot.svg \
             usr/share/dbus-1/services/com.deepin.Screenshot.service \
-            usr/share/deepin-screenshot/install-deps.sh \
-            'usr/share/libdtk-[0-9.]*/DWidget/translations/dtkwidget_zh_CN\.qm'
+            usr/share/deepin-screenshot/install-deps.sh
+          # the dtk translations live inside the bundled libdtkwidget5 deb
+          WIDGETPAYLOAD="$(dpkg-deb -c /tmp/dtk-debs/libdtkwidget5_*.deb)"
+          case "$WIDGETPAYLOAD" in
+            *dtkwidget_zh_CN.qm*) echo "dtkwidget zh_CN qm: ok" ;;
+            *) echo "MISSING dtkwidget_zh_CN.qm in the bundled libdtkwidget5 deb"; exit 1 ;;
+          esac
           N="$(dpkg-deb -c "pkg/deepin-screenshot-${VERSION}-${{ matrix.osarch }}-offline.deb" | grep -cE 'deps/.*\.deb$')"
           echo "bundled dependency debs: ${N}"
           [ "${N}" -ge 1 ]
